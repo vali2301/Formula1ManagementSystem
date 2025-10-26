@@ -1,4 +1,5 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+# F1 Management System  
+A console-based application that simulates a F1 championship. The system manages drivers, teams, races and results using oop
 
 ### Folosiți template-ul corespunzător grupei voastre!
 

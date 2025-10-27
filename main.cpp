@@ -3,9 +3,11 @@
 #include <string>
 #include <algorithm>
 #include <random>
+#include <limits>
+#include <map>
  class Pilot {
      private:
-     std:: string nume;
+     std::string nume;
      int puncte;
      public:
      Pilot(std::string n) : nume(n), puncte(0) {}
@@ -16,6 +18,7 @@
      std::string getNume() const { return nume; }
      int getPuncte() const { return puncte; }
      void adaugaPuncte(int p) { puncte += p; }
+     void setPuncte(int p) { puncte = p; }
      void afisare() const {
     std::cout<<"Pilot: "<<nume<<", Puncte: "<<puncte<<std::endl;
      }
@@ -40,6 +43,10 @@ class Echipa {
         for(auto &p : piloti)
             p.afisare();
     }
+    friend std::ostream& operator<<(std::ostream& os, const Echipa& e) {
+        os << "Echipa: " << e.nume << " (" << e.piloti.size() << " piloti)";
+        return os;
+    }
 };
 class Cursa {
     private:
@@ -49,33 +56,59 @@ class Cursa {
     public:
     Cursa(std::string l, std::vector<Echipa> e) : locatie(l), echipe(e) {}
 
-    void simuleaza(std::string pilotAles) {
-        std::cout<<"Cursa din "<<locatie<<" a inceput!\n";
+    int punctePilotCursa(const std::string& pilotAles, std::map<std::string, int>& scoruri) {
         std::vector<Pilot> totiPiloti;
-
-        for(auto &echipa : echipe)
-            for(auto &p : echipa.getPiloti())
+        for (auto &echipa : echipe)
+            for (auto &p : echipa.getPiloti())
                 totiPiloti.push_back(p);
 
         std::random_device rd;
         std::mt19937 gen(rd());
         std::shuffle(totiPiloti.begin(), totiPiloti.end(), gen);
-        std::cout<<"\n Clasamentul final: \n";
-        for(size_t i = 0; i < totiPiloti.size(); ++i) {
+
+        std::cout << "\nCursa din " << locatie << " a inceput!\n\n";
+        std::cout << "Clasament final pentru " << locatie << ":\n";
+
+        int punctePilot = 0;
+        for (size_t i = 0; i < totiPiloti.size(); ++i) {
             int puncte = (i < puncteF1.size()) ? puncteF1[i] : 0;
             totiPiloti[i].adaugaPuncte(puncte);
-            totiPiloti[i].afisare();
-             if(totiPiloti[i].getNume() == pilotAles)
-                 std::cout<<"Pilotul tau ( "<<pilotAles<<" ) a terminat pe locul "<<i+1<<" si a obtinut "<<puncte<<" puncte!\n";
+            std::cout << i + 1 << ". " << totiPiloti[i].getNume() << " - " << puncte << " puncte\n";
+            scoruri[totiPiloti[i].getNume()] += puncte;
+            if (totiPiloti[i].getNume() == pilotAles)
+                punctePilot = puncte;
         }
-        }
-    void afisareEchipe() const {
-            std::cout<<"\n Echipe participante:\n";
-            for(auto &e : echipe)
-                e.afisare();
-        }
+        return punctePilot;
+    }
 
     };
+
+    int meniuCampionat() {
+        std::cout << "\nCampionatul continua:\n";
+        std::cout << "1. Urmatoarea cursa\n";
+        std::cout << "2. Vezi clasamentul general\n";
+        std::cout << "3. Iesi din campionat\n";
+        std::cout << "Alege o optiune: ";
+        int opt;
+        while (true) {
+            if (std::cin >> opt && opt >= 1 && opt <= 3)
+                return opt;
+            std::cout << "Optiune invalida! Alege 1 - 3: ";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+
+    void afiseazaClasamentGeneral(const std::map<std::string, int>& scoruri) {
+        std::vector<std::pair<std::string, int>> clasament(scoruri.begin(), scoruri.end());
+        std::sort(clasament.begin(), clasament.end(), [](auto &a, auto &b) {
+            return a.second > b.second;
+        });
+        std::cout << "\n===== CLASAMENT GENERAL =====\n";
+        int poz = 1;
+        for (auto &p : clasament)
+            std::cout << poz++ << ". " << p.first << " - " << p.second << " puncte\n";
+    }
 
 int main() {
     std::vector<Echipa> echipe ={
@@ -86,6 +119,11 @@ int main() {
         Echipa("Mclaren" , {"Norris", "Piastri"})
 
     };
+
+        std::vector<std::string> circuite = {"Monaco", "Silverstone", "Spa"};
+        int puncteTotale = 0;
+        std::map<std::string, int> scoruri;
+
     std::cout<<"Bine ai venit la Formula 1 Monaco Grand Prix!\n";
     std::cout<<"Alege o echipa:\n";
     for (size_t i = 0; i < echipe.size(); ++i)
@@ -113,7 +151,28 @@ int main() {
     }
 std:: string pilotAles = piloti[alegerePilot].getNume();
     std::cout<<"\n Ai ales sa concurezi cu "<<pilotAles<<"!\n";
-    Cursa monaco("Monaco", echipe);
-    monaco.simuleaza(pilotAles);
-    return 0;
+
+        for (size_t i = 0; i < circuite.size(); ++i) {
+            Cursa cursa(circuite[i], echipe);
+            int puncteCursa = cursa.punctePilotCursa(pilotAles, scoruri);
+            puncteTotale += puncteCursa;
+
+            if (i < circuite.size() - 1) {
+                int opt;
+                do {
+                    opt = meniuCampionat();
+                    if (opt == 2)
+                        afiseazaClasamentGeneral(scoruri);
+                    else if (opt == 3) {
+                        std::cout << "\nCampionatul s-a incheiat mai devreme!\n";
+                        afiseazaClasamentGeneral(scoruri);
+                        return 0;
+                    }
+                } while (opt == 2);
+            }
+        }
+
+        afiseazaClasamentGeneral(scoruri);
+        std::cout << "\nFelicitari! Ai terminat intregul campionat de Formula 1!\n";
+        return 0;
 }

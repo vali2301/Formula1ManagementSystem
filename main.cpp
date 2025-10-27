@@ -140,6 +140,29 @@ class Cursa {
 
     };
 
+void afiseazaClasamentEchipe(const std::map<std::string, int> &scoruri) {
+    std::map<std::string, std::string> pilotEchipa = {
+        {"Verstappen", "Red Bull"}, {"Tsunoda", "Red Bull"},
+        {"Leclerc", "Ferrari"}, {"Hamilton", "Ferrari"},
+        {"Russell", "Mercedes"}, {"Antonelli", "Mercedes"},
+        {"Norris", "Mclaren"}, {"Piastri", "Mclaren"}};
+
+    std::map<std::string, int> puncteEchipe;
+    for (auto &p : scoruri)
+        puncteEchipe[pilotEchipa[p.first]] += p.second;
+
+    std::vector<std::pair<std::string, int>> clasamentEchipe(puncteEchipe.begin(), puncteEchipe.end());
+    std::sort(clasamentEchipe.begin(), clasamentEchipe.end(), [](auto &a, auto &b) {
+        return a.second > b.second;
+    });
+
+    std::cout << "\n===== CLASAMENT ECHIPE =====\n";
+    int poz = 1;
+    for (auto &e : clasamentEchipe)
+        std::cout << poz++ << ". " << e.first << " - " << e.second << " puncte\n";
+}
+
+
     int meniuCampionat() {
         std::cout << "\nCampionatul continua:\n";
         std::cout << "1. Urmatoarea cursa\n";
@@ -230,8 +253,10 @@ std:: string pilotAles = piloti[alegerePilot].getNume();
                 int opt;
                 do {
                     opt = meniuCampionat();
-                    if (opt == 2)
+                    if (opt == 2) {
                         afiseazaClasamentGeneral(scoruri);
+                        afiseazaClasamentEchipe(scoruri);
+                    }
                     else if (opt == 3) {
                         std::cout << "\nCampionatul s-a incheiat mai devreme!\n";
                         afiseazaClasamentGeneral(scoruri);
@@ -242,6 +267,36 @@ std:: string pilotAles = piloti[alegerePilot].getNume();
         }
 
         afiseazaClasamentGeneral(scoruri);
-        std::cout << "\nFelicitari! Ai terminat intregul campionat de Formula 1!\n";
-        return 0;
+    afiseazaClasamentEchipe(scoruri);
+
+
+    std::vector<std::pair<std::string, int>> clasamentFinal(scoruri.begin(), scoruri.end());
+    std::sort(clasamentFinal.begin(), clasamentFinal.end(), [](auto &a, auto &b) {
+        return a.second > b.second;
+    });
+
+    std::string campionPilot = clasamentFinal.front().first;
+    int punctePilotCampion = clasamentFinal.front().second;
+
+    std::map<std::string, std::string> pilotEchipa = {
+        {"Verstappen", "Red Bull"}, {"Tsunoda", "Red Bull"},
+        {"Leclerc", "Ferrari"}, {"Hamilton", "Ferrari"},
+        {"Russell", "Mercedes"}, {"Antonelli", "Mercedes"},
+        {"Norris", "Mclaren"}, {"Piastri", "Mclaren"}};
+
+    std::map<std::string, int> puncteEchipe;
+    for (auto &p : scoruri)
+        puncteEchipe[pilotEchipa[p.first]] += p.second;
+
+    auto echipaCampioana = std::max_element(puncteEchipe.begin(), puncteEchipe.end(),
+        [](auto &a, auto &b) { return a.second < b.second; });
+
+    std::cout << "\nCampion mondial: " << campionPilot << " (" << pilotEchipa[campionPilot]
+              << ") - " << punctePilotCampion << " puncte\n";
+    std::cout << "Campioana la constructori: " << echipaCampioana->first
+              << " - " << echipaCampioana->second << " puncte\n";
+
+    std::cout << "\nFelicitari! Ai terminat intregul campionat de Formula 1!\n";
+    return 0;
+
 }

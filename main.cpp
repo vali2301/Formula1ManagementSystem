@@ -15,10 +15,10 @@
      Pilot(const Pilot&) = default;
      Pilot& operator=(const Pilot&) = default;
 
-    const std::string getNume() const { return nume; }
-     int getPuncte() const { return puncte; }
+    const std::string& getNume() const { return nume; }
+     //int getPuncte() const { return puncte; }
      void adaugaPuncte(int p) { puncte += p; }
-     void setPuncte(int p) { puncte = p; }
+     //void setPuncte(int p) { puncte = p; }
      void afisare() const {
     std::cout<<"Pilot: "<<nume<<", Puncte: "<<puncte<<std::endl;
      }
@@ -36,7 +36,7 @@ class Echipa {
     std::string nume;
     std::vector<Pilot> piloti;
     public:
-    Echipa(const std::string n, std::vector<std::string> numePiloti) : nume(n) {
+    Echipa(const std::string& n, std::vector<std::string> numePiloti) : nume(n) {
         for(auto &p : numePiloti)
             piloti.emplace_back(p);
 
@@ -54,7 +54,7 @@ class Echipa {
     ~Echipa() {}
 
 
-    const std::string getNume() const { return nume; }
+    const std::string& getNume() const { return nume; }
     std::vector<Pilot>& getPiloti() { return piloti; }
 
     void afisare() const {

@@ -11,11 +11,11 @@
      int puncte;
 
      public:
-     Pilot(std::string n) : nume(n), puncte(0) {}
+     explicit Pilot(std::string n) : nume(n), puncte(0) {}
      Pilot(const Pilot&) = default;
      Pilot& operator=(const Pilot&) = default;
 
-     std::string getNume() const { return nume; }
+    const std::string getNume() const { return nume; }
      int getPuncte() const { return puncte; }
      void adaugaPuncte(int p) { puncte += p; }
      void setPuncte(int p) { puncte = p; }
@@ -36,7 +36,7 @@ class Echipa {
     std::string nume;
     std::vector<Pilot> piloti;
     public:
-    Echipa(std::string n, std::vector<std::string> numePiloti) : nume(n) {
+    Echipa(const std::string n, std::vector<std::string> numePiloti) : nume(n) {
         for(auto &p : numePiloti)
             piloti.emplace_back(p);
 
@@ -54,12 +54,12 @@ class Echipa {
     ~Echipa() {}
 
 
-    std::string getNume() const { return nume; }
+    const std::string getNume() const { return nume; }
     std::vector<Pilot>& getPiloti() { return piloti; }
 
     void afisare() const {
         std::cout<< "Echipa: "<<nume<<std::endl;
-        for(auto &p : piloti)
+        for( const auto &p : piloti)
             p.afisare();
     }
     friend std::ostream& operator<<(std::ostream& os, const Echipa& e) {
@@ -80,17 +80,17 @@ void afiseazaClasamentEchipe(const std::map<std::string, int> &scoruri) {
         {"Norris", "Mclaren"}, {"Piastri", "Mclaren"}};
 
     std::map<std::string, int> puncteEchipe;
-    for (auto &p : scoruri)
+    for ( const auto &p : scoruri)
         puncteEchipe[pilotEchipa[p.first]] += p.second;
 
     std::vector<std::pair<std::string, int>> clasamentEchipe(puncteEchipe.begin(), puncteEchipe.end());
-    std::sort(clasamentEchipe.begin(), clasamentEchipe.end(), [](auto &a, auto &b) {
+    std::sort(clasamentEchipe.begin(), clasamentEchipe.end(), [](const auto &a, const auto &b) {
         return a.second > b.second;
     });
 
     std::cout << "\n===== CLASAMENT ECHIPE =====\n";
     int poz = 1;
-    for (auto &e : clasamentEchipe)
+    for (const auto &e : clasamentEchipe)
         std::cout << poz++ << ". " << e.first << " - " << e.second << " puncte\n";
 }
 
@@ -123,17 +123,17 @@ std::map<std::string, int> scoruri=scoruriExistente;
         };
 for (const auto &nume : totiPiloti) {
 if (scoruri.find(nume)==scoruri.end())
-    scoruri[nume]=0;
+    scoruri.try_emplace(nume, 0);
 }
 
         std::vector<std::pair<std::string, int>> clasament(scoruri.begin(), scoruri.end());
-        std::sort(clasament.begin(), clasament.end(), [](auto &a, auto &b) {
+        std::sort(clasament.begin(), clasament.end(), [](const auto &a, const auto &b) {
             return a.second > b.second;
         });
 
         std::cout << "\n===== CLASAMENT GENERAL PILOTI =====\n";
         int poz = 1;
-        for (auto &p : clasament)
+        for (const auto &p : clasament)
             std::cout << poz++ << ". " << p.first << " - " << p.second << " puncte\n";
 
     }
@@ -182,7 +182,7 @@ void afisareCircuitInfo() {
     };
 
     std::cout << "\n===== DETALII CIRCUITE =====\n";
-    for (auto &c : info)
+    for (const auto &c : info)
         std::cout << c.first << ": " << c.second << "\n";
 
 }
@@ -257,7 +257,7 @@ class Cursa {
     int punctePilotCursa(const std::string& pilotAles, std::map<std::string, int>& scoruri) {
         std::vector<Pilot> totiPiloti;
         for (auto &echipa : echipe)
-            for (auto &p : echipa.getPiloti())
+            for (const auto &p : echipa.getPiloti())
                 totiPiloti.push_back(p);
 
         std::random_device rd;
@@ -318,7 +318,7 @@ class Cursa {
 
         if (!abandonuri.empty()) {
             std::cout << "\nAbandonuri (DNF):\n";
-            for (auto &nume : abandonuri)
+            for (const auto &nume : abandonuri)
                 std::cout << "- " << nume << " (DNF)\n";
         }
 
@@ -327,7 +327,7 @@ class Cursa {
         std::cout << "\nCel mai rapid tur: " << pilotBonus << " (+1 punct bonus)\n";
 
         auto it = std::find_if(rezultate.begin(), rezultate.end(),
-                               [&](auto &x){ return x.first == pilotAles; });
+                               [&](const auto &x){ return x.first == pilotAles; });
         if (it != rezultate.end())
             std::cout << "\nPilotul tau (" << pilotAles << ") a terminat pe locul "
                       << (it - rezultate.begin() + 1)
@@ -392,7 +392,7 @@ std:: string pilotAles = piloti[alegerePilot].getNume();
 
         for (size_t i = 0; i < circuite.size(); ++i) {
             Cursa cursa(circuite[i], echipe, campionat);
-           // int puncteCursa = cursa.punctePilotCursa(pilotAles, scoruri);
+           int puncteCursa = cursa.punctePilotCursa(pilotAles, scoruri);
             //puncteTotale += puncteCursa;
             if (i < circuite.size() - 1) {
                 int opt;
@@ -428,7 +428,7 @@ std:: string pilotAles = piloti[alegerePilot].getNume();
 
 
     std::vector<std::pair<std::string, int>> clasamentFinal(scoruri.begin(), scoruri.end());
-    std::sort(clasamentFinal.begin(), clasamentFinal.end(), [](auto &a, auto &b) {
+    std::sort(clasamentFinal.begin(), clasamentFinal.end(), [](const auto &a, const auto &b) {
         return a.second > b.second;
     });
 
@@ -442,11 +442,11 @@ std:: string pilotAles = piloti[alegerePilot].getNume();
         {"Norris", "Mclaren"}, {"Piastri", "Mclaren"}};
 
     std::map<std::string, int> puncteEchipe;
-    for (auto &p : scoruri)
+    for (const auto &p : scoruri)
         puncteEchipe[pilotEchipa[p.first]] += p.second;
 
     auto echipaCampioana = std::max_element(puncteEchipe.begin(), puncteEchipe.end(),
-        [](auto &a, auto &b) { return a.second < b.second; });
+        [](const auto &a, const auto &b) { return a.second < b.second; });
 
     std::cout << "\nCampion mondial: " << campionPilot << " (" << pilotEchipa[campionPilot]
               << ") - " << punctePilotCampion << " puncte\n";

@@ -22,6 +22,12 @@
      void afisare() const {
     std::cout<<"Pilot: "<<nume<<", Puncte: "<<puncte<<std::endl;
      }
+
+     friend std::ostream& operator<<(std::ostream& os, const Pilot& p) {
+         os << "Pilot: " << p.nume << " (" << p.puncte << " puncte)";
+         return os;
+     }
+
  };
 
 class Echipa {
@@ -35,6 +41,18 @@ class Echipa {
 
     }
     Echipa(const Echipa &e) : nume(e.nume), piloti(e.piloti) {}
+    Echipa &operator=(const Echipa &e) {
+        if (this != &e) {
+            nume = e.nume;
+            piloti = e.piloti;
+        }
+        return *this;
+    }
+
+
+    ~Echipa() {}
+
+
     std::string getNume() const { return nume; }
     std::vector<Pilot>& getPiloti() { return piloti; }
 
@@ -48,6 +66,7 @@ class Echipa {
         return os;
     }
 };
+    void simulareVreme();
 class Cursa {
     private:
     std::string locatie;
@@ -67,7 +86,7 @@ class Cursa {
         std::shuffle(totiPiloti.begin(), totiPiloti.end(), gen);
 
         std::cout << "\nCursa din " << locatie << " a inceput!\n\n";
-
+        simulareVreme();
 
         std::uniform_int_distribution<> distAbandon(0, 9); //10%
         std::vector<std::string> abandonuri;
@@ -138,6 +157,12 @@ class Cursa {
         return punctePilot;
     }
 
+    friend std::ostream& operator<<(std::ostream& os, const Cursa& c) {
+        os << "Cursa: " << c.locatie
+           << " (cu " << c.echipe.size() << " echipe participante)";
+        return os;
+    }
+
     };
 
 void afiseazaClasamentEchipe(const std::map<std::string, int> &scoruri) {
@@ -168,13 +193,15 @@ void afiseazaClasamentEchipe(const std::map<std::string, int> &scoruri) {
         std::cout << "1. Urmatoarea cursa\n";
         std::cout << "2. Vezi clasamentul general\n";
         std::cout << "3. Regulament\n";
-        std::cout << "4. Iesi din campionat\n";
+        std::cout << "4. Detalii circuite\n";
+        std::cout<<"5. Simulare Pitstop\n";
+        std::cout << "6. Iesi din campionat\n";
         std::cout << "Alege o optiune: ";
         int opt;
         while (true) {
-            if (std::cin >> opt && opt >= 1 && opt <= 3)
+            if (std::cin >> opt && opt >= 1 && opt <= 6)
                 return opt;
-            std::cout << "Optiune invalida! Alege 1 - 3: ";
+            std::cout << "Optiune invalida! Alege 1 - 6: ";
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
@@ -218,6 +245,59 @@ void afisareRegulament() {
     std::cout << "Locul 10 - 1 punct\n";
     std::cout << "\nPunct bonus: Cel mai rapid tur (+1p)\n";
     std::cout << "Sanse de abandon: 10%\n";
+}
+
+void simulareVreme() {
+    std::vector<std::string> conditii = {"Soare", "Ploaie", "Nori", "Ceata"};
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, conditii.size() - 1);
+    std::string vreme = conditii[dist(gen)];
+
+    std::cout << "\nConditiile meteo pentru aceasta cursa: " << vreme << "\n";
+    if (vreme == " Ploaie") {
+        std::cout << "Ploaia poate duce la mai multe abandonuri si timpi mai mari!\n";
+    } else if (vreme == " Soare") {
+        std::cout << "Conditii perfecte de cursa, performante maxime!\n";
+    } else if (vreme == " Ceata") {
+        std::cout << "Vizibilitate redusa - risc de erori in viraje!\n";
+    } else {
+        std::cout << "Temperaturi moderate, performanta constanta.\n";
+    }
+}
+
+void afisareCircuitInfo() {
+    std::map<std::string, std::string> info = {
+        {"Monaco", "Circuit urban de 3.3 km, 78 tururi. Cele mai inguste viraje din F1."},
+        {"Silverstone", "Circuit din Marea Britanie, 5.8 km. Faimos pentru virajele rapide Maggots-Becketts."},
+        {"Spa", "Circuit belgian de 7 km, include celebra urcare Eau Rouge-Raidillon."}
+    };
+
+    std::cout << "\n===== DETALII CIRCUITE =====\n";
+    for (auto &c : info)
+        std::cout << c.first << ": " << c.second << "\n";
+
+}
+//////momentan doar 3 circuite pentru demo
+
+
+void simularePitStop() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dist(2.0, 4.5);
+    double timp = dist(gen);
+
+    std::cout << "\n Pit stop in curs...\n";
+    std::cout << "Mecanici se grabesc sa schimbe rotile...\n";
+    std::cout << "Verificare presiune, alimentare, ajustare aripa spate...\n";
+    std::cout << "Timp total: " << timp << " secunde.\n";
+
+    if (timp < 2.5)
+        std::cout << "Echipa ta a fost fantastica!  Pit stop ultra rapid!\n";
+    else if (timp < 3.5)
+        std::cout << "Pit stop decent, fara greseli majore.\n";
+    else
+        std::cout << "Pit stop lent! Ai pierdut timp pretios!\n";
 }
 
 
@@ -281,8 +361,13 @@ std:: string pilotAles = piloti[alegerePilot].getNume();
                     else if (opt == 3) {
                         afisareRegulament();
                     }
-
-                    else if (opt == 4) {
+                    else if (opt == 4){
+                        afisareCircuitInfo();
+                    }
+                    else if (opt == 5){
+                        simularePitStop();
+                    }
+                    else if (opt == 6) {
                         std::cout << "\nCampionatul s-a incheiat mai devreme!\n";
                         afiseazaClasamentGeneral(scoruri);
                         return 0;

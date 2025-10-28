@@ -392,7 +392,7 @@ std:: string pilotAles = piloti[alegerePilot].getNume();
 
         for (size_t i = 0; i < circuite.size(); ++i) {
             Cursa cursa(circuite[i], echipe, campionat);
-            int puncteCursa = cursa.punctePilotCursa(pilotAles, scoruri);
+           // int puncteCursa = cursa.punctePilotCursa(pilotAles, scoruri);
             //puncteTotale += puncteCursa;
             if (i < circuite.size() - 1) {
                 int opt;

@@ -69,11 +69,11 @@ class Cursa {
         std::cout << "\nCursa din " << locatie << " a inceput!\n\n";
 
 
-        std::uniform_int_distribution<> distAbandon(0, 9); // 1 din 10 șanse (10%) de DNF
+        std::uniform_int_distribution<> distAbandon(0, 9); //10%
         std::vector<std::string> abandonuri;
 
         for (auto it = totiPiloti.begin(); it != totiPiloti.end();) {
-            if (distAbandon(gen) == 0) { // pilot abandonează
+            if (distAbandon(gen) == 0) {
                 abandonuri.push_back(it->getNume());
                 it = totiPiloti.erase(it);
             } else {
@@ -167,7 +167,8 @@ void afiseazaClasamentEchipe(const std::map<std::string, int> &scoruri) {
         std::cout << "\nCampionatul continua:\n";
         std::cout << "1. Urmatoarea cursa\n";
         std::cout << "2. Vezi clasamentul general\n";
-        std::cout << "3. Iesi din campionat\n";
+        std::cout << "3. Regulament\n";
+        std::cout << "4. Iesi din campionat\n";
         std::cout << "Alege o optiune: ";
         int opt;
         while (true) {
@@ -201,6 +202,26 @@ if (scoruri.find(nume)==scoruri.end())
             std::cout << poz++ << ". " << p.first << " - " << p.second << " puncte\n";
 
     }
+
+void afisareRegulament() {
+    std::cout << "\n===== REGULAMENT FORMULA 1 =====\n";
+    std::cout << "SISTEM DE PUNCTAJ:\n";
+    std::cout << "Locul 1 - 25 puncte\n";
+    std::cout << "Locul 2 - 18 puncte\n";
+    std::cout << "Locul 3 - 15 puncte\n";
+    std::cout << "Locul 4 - 12 puncte\n";
+    std::cout << "Locul 5 - 10 puncte\n";
+    std::cout << "Locul 6 - 8 puncte\n";
+    std::cout << "Locul 7 - 6 puncte\n";
+    std::cout << "Locul 8 - 4 puncte\n";
+    std::cout << "Locul 9 - 2 puncte\n";
+    std::cout << "Locul 10 - 1 punct\n";
+    std::cout << "\nPunct bonus: Cel mai rapid tur (+1p)\n";
+    std::cout << "Sanse de abandon: 10%\n";
+}
+
+
+
 
 int main() {
     std::vector<Echipa> echipe ={
@@ -258,11 +279,15 @@ std:: string pilotAles = piloti[alegerePilot].getNume();
                         afiseazaClasamentEchipe(scoruri);
                     }
                     else if (opt == 3) {
+                        afisareRegulament();
+                    }
+
+                    else if (opt == 4) {
                         std::cout << "\nCampionatul s-a incheiat mai devreme!\n";
                         afiseazaClasamentGeneral(scoruri);
                         return 0;
                     }
-                } while (opt == 2);
+                } while (opt != 1);
             }
         }
 

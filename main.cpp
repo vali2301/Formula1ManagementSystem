@@ -12,10 +12,8 @@
 
      public:
      Pilot(std::string n) : nume(n), puncte(0) {}
-     Pilot(const Pilot &p) {
-         nume = p.nume;
-         puncte = p.puncte;
-     }
+     Pilot(const Pilot&) = default;
+     Pilot& operator=(const Pilot&) = default;
 
      std::string getNume() const { return nume; }
      int getPuncte() const { return puncte; }
@@ -361,7 +359,7 @@ int main() {
     };
 
         std::vector<std::string> circuite = {"Monaco", "Silverstone", "Spa"};
-int puncteTotale=0;
+//int puncteTotale=0;
         std::map<std::string, int> scoruri;
 
     std::cout<<"Bine ai venit la Formula 1 Monaco Grand Prix!\n";
@@ -395,7 +393,7 @@ std:: string pilotAles = piloti[alegerePilot].getNume();
         for (size_t i = 0; i < circuite.size(); ++i) {
             Cursa cursa(circuite[i], echipe, campionat);
             int puncteCursa = cursa.punctePilotCursa(pilotAles, scoruri);
-            puncteTotale += puncteCursa;
+            //puncteTotale += puncteCursa;
             if (i < circuite.size() - 1) {
                 int opt;
                 do {

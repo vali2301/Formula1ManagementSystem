@@ -15,6 +15,13 @@
          nume = p.nume;
          puncte = p.puncte;
      }
+     Pilot& operator=(const Pilot &p) {
+         if (this != &p) {
+             nume = p.nume;
+             puncte = p.puncte;
+         }
+         return *this;
+     }
      std::string getNume() const { return nume; }
      int getPuncte() const { return puncte; }
      void adaugaPuncte(int p) { puncte += p; }
@@ -66,6 +73,7 @@ class Echipa {
         os << "Echipa: " << e.nume << " (" << e.piloti.size() << " piloti)";
         return os;
     }
+
 };
 
     class Campionat{
@@ -239,9 +247,7 @@ void simulareSafetyCar() {
 
     std::cout << "Pilotii trebuie sa pastreze o distanta minima si sa nu depaseasca.\n";
     std::cout << "Dupa " << durata << " tururi, Safety Car se retrage si cursa continua!\n";
-
 }
-
 
 };
 
@@ -360,7 +366,7 @@ int main() {
     };
 
         std::vector<std::string> circuite = {"Monaco", "Silverstone", "Spa"};
-        int puncteTotale = 0;
+
         std::map<std::string, int> scoruri;
 
     std::cout<<"Bine ai venit la Formula 1 Monaco Grand Prix!\n";
@@ -394,7 +400,6 @@ std:: string pilotAles = piloti[alegerePilot].getNume();
         for (size_t i = 0; i < circuite.size(); ++i) {
             Cursa cursa(circuite[i], echipe, campionat);
             int puncteCursa = cursa.punctePilotCursa(pilotAles, scoruri);
-            puncteTotale += puncteCursa;
 
             if (i < circuite.size() - 1) {
                 int opt;

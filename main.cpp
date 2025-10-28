@@ -15,13 +15,7 @@
          nume = p.nume;
          puncte = p.puncte;
      }
-     Pilot& operator=(const Pilot &p) {
-         if (this != &p) {
-             nume = p.nume;
-             puncte = p.puncte;
-         }
-         return *this;
-     }
+
      std::string getNume() const { return nume; }
      int getPuncte() const { return puncte; }
      void adaugaPuncte(int p) { puncte += p; }
@@ -364,7 +358,6 @@ int main() {
         Echipa("Mclaren" , {"Norris", "Piastri"})
 
     };
-
         std::vector<std::string> circuite = {"Monaco", "Silverstone", "Spa"};
 
         std::map<std::string, int> scoruri;

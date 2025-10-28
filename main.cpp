@@ -30,6 +30,7 @@
 
  };
 
+
 class Echipa {
     private:
     std::string nume;
@@ -66,7 +67,10 @@ class Echipa {
         return os;
     }
 };
+
     void simulareVreme();
+
+
 class Cursa {
     private:
     std::string locatie;
@@ -165,6 +169,7 @@ class Cursa {
 
     };
 
+
 void afiseazaClasamentEchipe(const std::map<std::string, int> &scoruri) {
     std::map<std::string, std::string> pilotEchipa = {
         {"Verstappen", "Red Bull"}, {"Tsunoda", "Red Bull"},
@@ -195,7 +200,8 @@ void afiseazaClasamentEchipe(const std::map<std::string, int> &scoruri) {
         std::cout << "3. Regulament\n";
         std::cout << "4. Detalii circuite\n";
         std::cout<<"5. Simulare Pitstop\n";
-        std::cout << "6. Iesi din campionat\n";
+        std::cout<<"6. Simulare Safety Car\n";
+        std::cout << "7. Iesi din campionat\n";
         std::cout << "Alege o optiune: ";
         int opt;
         while (true) {
@@ -301,6 +307,42 @@ void simularePitStop() {
 }
 
 
+void simulareSafetyCar() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distCauza(1, 4);
+    std::uniform_real_distribution<> distDurata(2, 6);
+
+    int cauza = distCauza(gen);
+    int durata = distDurata(gen);
+
+    std::cout << "\n Safety Car pe circuit!\n";
+
+    switch (cauza) {
+        case 1:
+            std::cout << "Un pilot a iesit in decor si masina trebuie indepartata de pe pista.\n";
+            break;
+        case 2:
+            std::cout << "Resturi pe circuit dupa un mic contact intre doua masini.\n";
+            break;
+        case 3:
+            std::cout << "Conditii meteo periculoase - ploaie puternica in virajul 3.\n";
+            break;
+        case 4:
+            std::cout << "Incident la boxe, un mecanic a alunecat - Safety Car temporar!\n";
+            break;
+    }
+
+    std::cout << "Safety Car va ramane pe pista pentru aproximativ "
+              << durata << " tururi.\n";
+
+    std::cout << "Pilotii trebuie sa pastreze o distanta minima si sa nu depaseasca.\n";
+    std::cout << "Dupa " << durata << " tururi, Safety Car se retrage si cursa continua!\n";
+
+}
+
+
+
 
 
 int main() {
@@ -367,7 +409,10 @@ std:: string pilotAles = piloti[alegerePilot].getNume();
                     else if (opt == 5){
                         simularePitStop();
                     }
-                    else if (opt == 6) {
+                       else if (opt == 6){
+                        simulareSafetyCar();
+                    }
+                    else if (opt == 7) {
                         std::cout << "\nCampionatul s-a incheiat mai devreme!\n";
                         afiseazaClasamentGeneral(scoruri);
                         return 0;

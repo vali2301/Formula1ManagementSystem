@@ -1,5 +1,6 @@
 # F1 Management System  
-A console-based application that simulates a F1 championship. The system manages drivers, teams, races and results using oop
+Acest proiect simulează un campionat complet de Formula 1, oferind o experienta interactiva.
+Utilizatorul își poate alege o echipa si un pilot, participa la curse, verifica clasamente, consulta regulamente si chiar asista la evenimente dinamice precum pit stop-uri rapide sau intervenții de Safety Car.
 
 ### Folosiți template-ul corespunzător grupei voastre!
 

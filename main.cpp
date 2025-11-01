@@ -62,10 +62,16 @@ class Echipa {
         for( const auto &p : piloti)
             p.afisare();
     }
+
+
     friend std::ostream& operator<<(std::ostream& os, const Echipa& e) {
-        os << "Echipa: " << e.nume << " (" << e.piloti.size() << " piloti)";
+        os << "Echipa: " << e.nume << "\n";
+        os << "   Piloti:\n";
+        for (const auto& p : e.piloti)
+            os << "      " << p << "\n";
         return os;
     }
+
 
 };
 
@@ -337,8 +343,10 @@ class Cursa {
     }
 
     friend std::ostream& operator<<(std::ostream& os, const Cursa& c) {
-        os << "Cursa: " << c.locatie
-           << " (cu " << c.echipe.size() << " echipe participante)";
+        os << "Cursa: " << c.locatie << "\n";
+        os << "Echipe participante:\n";
+        for (const auto& e : c.echipe)
+            os << e << "\n";
         return os;
     }
 

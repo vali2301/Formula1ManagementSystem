@@ -1,4 +1,8 @@
-
+#include <algorithm>
+#include <vector>
+#include <map>
+#include <string>
+#include <iostream>
 #include "include/Pilot.h"
 #include "include/Echipa.h"
 #include "include/Cursa.h"

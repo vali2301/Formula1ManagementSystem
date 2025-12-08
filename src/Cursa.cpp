@@ -4,8 +4,9 @@
 #include <random>
 
 Cursa::Cursa(std::string l, std::vector<Echipa> e, Campionat &c)
-    : locatie(l), echipe(e), campionat(c), puncteF1{25, 18, 15, 12, 10, 8, 6, 4, 2, 1} {
-}
+    : locatie(l), echipe(e), puncteF1{25,18,15,12,10,8,6,4,2,1}, campionat(c)
+{}
+
 
 
 int Cursa::punctePilotCursa(const std::string &pilotAles, std::map<std::string, int> &scoruri) {

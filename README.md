@@ -1,6 +1,6 @@
 # F1 Management System  
 Acest proiect reprezinta o simulare interactiva completa a unui campionat de Formula 1.
-Utilizatorul intră în rolul unui manager de echipa care alege un pilot si concurează in mai multe curse, in timp ce sistemul gestioneaza evenimentele de cursa, conditiile meteo, clasamentele pilotilor și constructorilor, dar si elemente aleatorii precum pit stop-uri, abandonuri sau interventii ale Safety Car-ului.
+Utilizatorul intră în rolul unui manager de echipa care alege un pilot si concurează in mai multe curse, in timp ce sistemul gestioneaza evenimentele de cursa, conditiile meteo, clasamentele pilotilor si constructorilor, dar si elemente aleatorii precum pit stop-uri, abandonuri sau interventii ale Safety Car-ului.
 
 ### Folosiți template-ul corespunzător grupei voastre!
 

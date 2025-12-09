@@ -54,6 +54,7 @@ add_executable(oop
         src/Echipa.cpp
         src/Cursa.cpp
         src/Campionat.cpp
+        src/Meniu.cpp
 )
 target_include_directories(oop PRIVATE ${CMAKE_SOURCE_DIR}/include)
 

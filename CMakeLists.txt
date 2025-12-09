@@ -59,6 +59,7 @@ add_executable(oop
         src/RecunoastereCircuit.cpp
         src/Calificari.cpp
         src/CursaF1.cpp
+        src/Motor.cpp
 )
 target_include_directories(oop PRIVATE ${CMAKE_SOURCE_DIR}/include)
 

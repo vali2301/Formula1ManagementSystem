@@ -1,10 +1,13 @@
 #include "Campionat.h"
+#include "Exceptii.h"
 #include <iostream>
 #include <algorithm>
 #include <map>
 #include <vector>
 #include <random>
 #include <limits>
+
+int Campionat::curseTotalDesfasurate = 0;
 
 void Campionat::afiseazaClasamentEchipe(const std::map<std::string, int> &scoruri) {
     std::map<std::string, std::string> pilotEchipa = {
@@ -64,13 +67,26 @@ int Campionat::meniuCampionat() {
     std::cout << "7. Iesi din campionat\n";
     std::cout << "Alege o optiune: ";
     int opt;
-    while (true) {
+    int incercari = 0;
+    while (incercari < 3) {
         if (std::cin >> opt && opt >= 1 && opt <= 7)
             return opt;
+
         std::cout << "Optiune invalida! Alege 1 - 7: ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        incercari++;
     }
+    throw EroareOptiuneMeniu("Prea multe incercari esuate la selectarea optiunii din meniu.");
+}
+
+void Campionat::incrementeazaCurseTotal() {
+    curseTotalDesfasurate++;
+}
+
+void Campionat::afiseazaStatisticaCampionat() {
+    std::cout << "\n[STATISTICI GLOBALE CAMPIONAT]\n";
+    std::cout << "Curse de Grand Prix finalizate pana acum: " << curseTotalDesfasurate << "\n";
 }
 
 void Campionat::afiseazaClasamentGeneral(const std::map<std::string, int> &scoruriExistente) {

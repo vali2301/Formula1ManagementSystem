@@ -1,23 +1,35 @@
 #include "Echipa.h"
+#include <algorithm>
+#include <iostream>
+#include <vector>
 
-Echipa::Echipa(const std::string &n, std::vector<std::string> numePiloti) : nume(n) {
-    for (auto &p: numePiloti)
+void swap(Echipa& first, Echipa& second) {
+    using std::swap;
+    swap(first.nume, second.nume);
+    swap(first.piloti, second.piloti);
+    // Schimba membrul Motor
+    swap(first.motorEchipa, second.motorEchipa);
+}
+
+
+Echipa::Echipa(const std::string& n, std::vector<std::string> numePiloti, const std::string& motorProd, int motorCP, const std::string& motorSerie)
+    : nume(n), motorEchipa(motorProd, motorCP, motorSerie) {
+    for (auto& p : numePiloti)
         piloti.emplace_back(p);
 }
 
-Echipa::Echipa(const Echipa &e) : nume(e.nume), piloti(e.piloti) {
-}
 
-Echipa &Echipa::operator=(const Echipa &e) {
-    if (this != &e) {
-        nume = e.nume;
-        piloti = e.piloti;
-    }
+Echipa::Echipa(const Echipa& e)
+    : nume(e.nume), piloti(e.piloti), motorEchipa(e.motorEchipa) {}
+
+
+
+Echipa &Echipa::operator=(Echipa other) {
+    swap(*this, other);
     return *this;
 }
 
-Echipa::~Echipa() {
-}
+Echipa::~Echipa() = default;
 
 const std::string &Echipa::getNume() const {
     return nume;
@@ -33,6 +45,7 @@ const std::vector<Pilot> &Echipa::getPiloti() const {
 
 std::ostream &operator<<(std::ostream &os, const Echipa &e) {
     os << "Echipa: " << e.nume << "\n";
+    os << "   Motor: " << e.motorEchipa.getProducator() << "\n"; // Afisam si motorul
     os << "   Piloti:\n";
     for (const auto &p: e.piloti)
         os << "      " << p << "\n";

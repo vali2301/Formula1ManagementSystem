@@ -1,4 +1,5 @@
 #include "RecunoastereCircuit.h"
+#include "Echipa.h"
 #include <iostream>
 #include <algorithm>
 #include <random>

@@ -1,4 +1,5 @@
 #include "Eveniment.h"
+#include <iostream>
 
 Eveniment::~Eveniment() = default;
 

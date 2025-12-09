@@ -11,14 +11,20 @@ void Campionat::afiseazaClasamentEchipe(const std::map<std::string, int> &scorur
         {"Verstappen", "Red Bull"}, {"Tsunoda", "Red Bull"},
         {"Leclerc", "Ferrari"}, {"Hamilton", "Ferrari"},
         {"Russell", "Mercedes"}, {"Antonelli", "Mercedes"},
-        {"Norris", "Mclaren"}, {"Piastri", "Mclaren"}
+        {"Norris", "Mclaren"}, {"Piastri", "Mclaren"},
+        {"Alonso", "Aston Martin"}, {"Stroll", "Aston Martin"},
+        {"Colapinto", "Alpine"}, {"Gasly", "Alpine"},
+        {"Albon", "Williams"}, {"Sainz", "Williams"},
+        {"Lawson", "RB"}, {"Hadjar", "RB"},
+        {"Hulkenberg", "Kick Sauber"}, {"Bortoleto", "Kick Sauber"},
+        {"Ocon", "Haas"}, {"Bearman", "Haas"}
     };
 
     std::map<std::string, int> puncteEchipe;
     for (const auto &p: scoruri)
         puncteEchipe[pilotEchipa[p.first]] += p.second;
 
-    std::vector<std::pair<std::string, int>> clasamentEchipe(puncteEchipe.begin(), puncteEchipe.end());
+    std::vector<std::pair<std::string, int> > clasamentEchipe(puncteEchipe.begin(), puncteEchipe.end());
     std::sort(clasamentEchipe.begin(), clasamentEchipe.end(),
               [](const auto &a, const auto &b) { return a.second > b.second; });
 
@@ -42,7 +48,7 @@ void Campionat::afiseazaCelMaiConstantPilot(const std::map<std::string, int> &sc
 
     if (!pilotConstant.empty())
         std::cout << "Cel mai constant pilot: " << pilotConstant
-                  << " (medie " << ceaMaiMareMedie << " pct/cursa)\n";
+                << " (medie " << ceaMaiMareMedie << " pct/cursa)\n";
     else
         std::cout << "Nu s-a putut determina un pilot constant.\n";
 }
@@ -72,14 +78,17 @@ void Campionat::afiseazaClasamentGeneral(const std::map<std::string, int> &scoru
 
     std::vector<std::string> totiPiloti = {
         "Verstappen", "Tsunoda", "Leclerc", "Hamilton",
-        "Russell", "Antonelli", "Norris", "Piastri"
+        "Russell", "Antonelli", "Norris", "Piastri",
+        "Alonso", "Stroll", "Colapinto", "Gasly",
+        "Albon", "Sainz", "Lawson", "Hadjar",
+        "Hulkenberg", "Bortoleto", "Ocon", "Bearman"
     };
 
     for (const auto &nume: totiPiloti)
         if (!scoruri.contains(nume))
             scoruri[nume] = 0;
 
-    std::vector<std::pair<std::string, int>> clasament(scoruri.begin(), scoruri.end());
+    std::vector<std::pair<std::string, int> > clasament(scoruri.begin(), scoruri.end());
     std::sort(clasament.begin(), clasament.end(),
               [](const auto &a, const auto &b) { return a.second > b.second; });
 
@@ -115,9 +124,30 @@ void Campionat::simulareVreme() {
 
 void Campionat::afisareCircuitInfo() {
     std::map<std::string, std::string> info = {
-        {"Monaco", "Circuit urban de 3.3 km"},
-        {"Silverstone", "Circuit rapid 5.8 km"},
-        {"Spa", "Cel mai lung circuit – 7 km"}
+        {"Australia", "Circuit semi-stradal in Melbourne, faimos pentru sectiunile rapide si aderenta scazuta."},
+        {"China", "Circuit cu design unic, notabil pentru virajele 1 si 2 in spirala."},
+        {"Japonia", "Suzuka: Circuit tehnic, celebru pentru S-uri si cursa in stil traditional F1."},
+        {"Bahrain", "Circuit in desert, renumit pentru franele puternice si cursa nocturna."},
+        {"Arabia Saudita", "Jeddah: Cel mai rapid circuit stradal din lume, cu vizibilitate redusa."},
+        {"Miami", "Circuit stradal nou, construit in jurul stadionului Hard Rock."},
+        {"Imola", "Circuit istoric in Italia, cu sectiuni inguste si traditionale."},
+        {"Monaco", "Circuit urban, cel mai lent si tehnic din calendar."},
+        {"Spania", "Circuit near Barcelona, adesea folosit pentru teste, cu aerodinamica solicitanta."},
+        {"Canada", "Circuit semi-stradal rapid, celebru pentru 'Zidul Campionilor'."},
+        {"Austria", "Red Bull Ring: Circuit scurt si rapid, cu multe schimbari de nivel."},
+        {"Silverstone", "Marea Britanie: Circuit rapid, cu viraje faimoase (Copse, Maggotts)."},
+        {"Spa", "Belgia: Cel mai lung circuit – 7 km, faimos pentru virajul Eau Rouge."},
+        {"Hungaroring", "Circuit lent si virajat, comparat cu unul de karting, dificil pentru depasiri."},
+        {"Olanda", "Zandvoort: Circuit retro pe dune, cu viraje inclinate (banking) solicitante."},
+        {"Monza", "Italia: 'Templul Vitezei', circuit cu cea mai mare viteza medie."},
+        {"Azerbaijan", "Circuit stradal in Baku, cu o sectiune de castel ingusta si o linie dreapta lunga."},
+        {"Singapore", "Circuit stradal nocturn, extrem de solicitant fizic datorita caldurii si umiditatii."},
+        {"SUA", "COTA: Circuit modern in Texas, cu o combinatie de viraje rapide si tehnice."},
+        {"Mexic", "Autodromo Hermanos Rodriguez: Altitudine mare, aer rarefiat si intrarea spectaculoasa prin stadion."},
+        {"Interlagos", "Brazilia: Circuit clasic, cu tururi scurte si sectiuni in urcare/coborare."},
+        {"Las Vegas", "Circuit stradal nocturn, cu o sectiune de lungime mare pe 'Strip'."},
+        {"Qatar", "Lusail: Circuit relativ nou, cu vizibilitate redusa si temperaturi ridicate."},
+        {"Abu Dhabi", "Yas Marina: Finala sezonului, cu un hotel impresionant si sectiuni lente si rapide."}
     };
 
     std::cout << "\n===== CIRCUITE =====\n";
@@ -126,7 +156,8 @@ void Campionat::afisareCircuitInfo() {
 }
 
 void Campionat::simularePitStop() {
-    std::random_device rd; std::mt19937 gen(rd());
+    std::random_device rd;
+    std::mt19937 gen(rd());
     std::uniform_real_distribution<> dist(2.0, 4.5);
     double timp = dist(gen);
 

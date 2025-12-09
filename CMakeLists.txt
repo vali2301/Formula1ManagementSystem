@@ -52,9 +52,13 @@ add_executable(oop
     main.cpp
         src/Pilot.cpp
         src/Echipa.cpp
-        src/Cursa.cpp
+        src/CursaF1.cpp
         src/Campionat.cpp
         src/Meniu.cpp
+        src/Eveniment.cpp
+        src/RecunoastereCircuit.cpp
+        src/Calificari.cpp
+        src/CursaF1.cpp
 )
 target_include_directories(oop PRIVATE ${CMAKE_SOURCE_DIR}/include)
 

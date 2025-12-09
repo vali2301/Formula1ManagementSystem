@@ -1,0 +1,78 @@
+#include "Calificari.h"
+#include <iostream>
+#include <algorithm>
+#include <random>
+
+Calificari::Calificari(const std::string &n, Campionat &c, const std::vector<Echipa> &echipe)
+    : Eveniment(n), campionat(c) {
+    for (const auto &echipa: echipe) {
+        for (const auto &pilot: echipa.getPiloti()) {
+            listaPiloti.push_back(pilot.getNume());
+        }
+    }
+}
+
+Calificari::Calificari(const Calificari &other)
+    : Eveniment(other), campionat(other.campionat), listaPiloti(other.listaPiloti),
+      timpiCalificari(other.timpiCalificari), grilaStart(other.grilaStart) {
+}
+
+Calificari &Calificari::operator=(const Calificari &other) {
+    if (this != &other) {
+        Eveniment::operator=(other);
+        listaPiloti = other.listaPiloti;
+        timpiCalificari = other.timpiCalificari;
+        grilaStart = other.grilaStart;
+    }
+    return *this;
+}
+
+void Calificari::simuleazaEveniment() {
+    std::cout << "\n[SIMULARE] Calificari (" << getNume() << ")\n";
+    campionat.simulareVreme();
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::uniform_real_distribution<> distTimp(70.0, 75.0);
+
+    timpiCalificari.clear();
+    for (const auto &numePilot: listaPiloti) {
+        timpiCalificari[numePilot] = distTimp(gen);
+    }
+
+    std::vector<std::pair<std::string, double> > clasament(timpiCalificari.begin(), timpiCalificari.end());
+    std::sort(clasament.begin(), clasament.end(),
+              [](const auto &a, const auto &b) { return a.second < b.second; });
+
+    grilaStart.clear();
+    std::cout << "Clasament Calificari:\n";
+    for (size_t i = 0; i < clasament.size(); ++i) {
+        grilaStart.push_back(clasament[i].first);
+        std::cout << i + 1 << ". " << clasament[i].first << " (" << clasament[i].second << "s)\n";
+    }
+}
+
+Eveniment *Calificari::clone() const {
+    return new Calificari(*this);
+}
+
+void Calificari::afisareVirtuala() const {
+    std::cout << "Tip: Calificari\n";
+    std::cout << "Sesiune: " << getNume() << "\n";
+}
+
+const std::vector<std::string> &Calificari::getGrilaStart() const {
+    return grilaStart;
+}
+
+void Calificari::afiseazaGrilaStart() const {
+    if (grilaStart.empty()) {
+        std::cout << "Grila de start nu a fost inca stabilita.\n";
+        return;
+    }
+    std::cout << "\n--- Grila de Start ---\n";
+    for (size_t i = 0; i < grilaStart.size(); ++i) {
+        std::cout << i + 1 << ". " << grilaStart[i] << "\n";
+    }
+}

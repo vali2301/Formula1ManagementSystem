@@ -1,15 +1,30 @@
-#include "Cursa.h"
+#include "CursaF1.h"
 #include <iostream>
 #include <algorithm>
 #include <random>
 
-Cursa::Cursa(std::string l, std::vector<Echipa> e, Campionat &c)
-    : locatie(l), echipe(e), puncteF1{25,18,15,12,10,8,6,4,2,1}, campionat(c)
+CursaF1::CursaF1(std::string locatie, std::vector<Echipa> e, Campionat &c)
+    : Eveniment(locatie), echipe(e), puncteF1{25,18,15,12,10,8,6,4,2,1}, campionat(c)
 {}
 
+CursaF1::CursaF1(const CursaF1& other)
+    : Eveniment(other), echipe(other.echipe), puncteF1(other.puncteF1), campionat(other.campionat) {}
 
+CursaF1& CursaF1::operator=(const CursaF1& other) {
+    if (this != &other) {
+        Eveniment::operator=(other);
+        echipe = other.echipe;
+        puncteF1 = other.puncteF1;
+    }
+    return *this;
+}
 
-int Cursa::punctePilotCursa(const std::string &pilotAles, std::map<std::string, int> &scoruri) {
+void CursaF1::simuleazaEveniment() {
+    std::cout << "\n[SIMULARE] Cursa F1 din " << getNume() << " a inceput!\n";
+    campionat.simulareVreme();
+}
+
+int CursaF1::punctePilotCursa(const std::string &pilotAles, std::map<std::string, int> &scoruri) {
     std::vector<Pilot> totiPiloti;
     for (auto &echipa: echipe)
         for (const auto &p: echipa.getPiloti())
@@ -19,10 +34,7 @@ int Cursa::punctePilotCursa(const std::string &pilotAles, std::map<std::string, 
     std::mt19937 gen(rd());
     std::shuffle(totiPiloti.begin(), totiPiloti.end(), gen);
 
-    std::cout << "\nCursa din " << locatie << " a inceput!\n\n";
-    campionat.simulareVreme();
-
-    std::uniform_int_distribution<> distAbandon(0, 9); //10%
+    std::uniform_int_distribution<> distAbandon(0, 9);
     std::vector<std::string> abandonuri;
 
     for (auto it = totiPiloti.begin(); it != totiPiloti.end();) {
@@ -34,7 +46,7 @@ int Cursa::punctePilotCursa(const std::string &pilotAles, std::map<std::string, 
         }
     }
 
-    std::cout << "Clasament final pentru " << locatie << ":\n";
+    std::cout << "Clasament final pentru " << getNume() << ":\n";
 
     std::uniform_real_distribution<> distTimp(75.0, 80.0);
     std::vector<double> timpi;
@@ -46,12 +58,14 @@ int Cursa::punctePilotCursa(const std::string &pilotAles, std::map<std::string, 
 
     int punctePilot = 0;
     std::vector<std::pair<std::string, double> > rezultate;
+    clasamentFinal.clear();
 
     for (size_t i = 0; i < totiPiloti.size(); ++i) {
         int puncte = (i < puncteF1.size()) ? puncteF1[i] : 0;
         totiPiloti[i].adaugaPuncte(puncte);
         scoruri[totiPiloti[i].getNume()] += puncte;
         rezultate.push_back({totiPiloti[i].getNume(), timpi[i]});
+        clasamentFinal.push_back({totiPiloti[i].getNume(), puncte});
 
         if (totiPiloti[i].getNume() == pilotAles)
             punctePilot = puncte;
@@ -89,8 +103,18 @@ int Cursa::punctePilotCursa(const std::string &pilotAles, std::map<std::string, 
 }
 
 
-std::ostream &operator<<(std::ostream &os, const Cursa &c) {
-    os << "Cursa: " << c.locatie << "\n";
+Eveniment* CursaF1::clone() const {
+    return new CursaF1(*this);
+}
+
+void CursaF1::afisareVirtuala() const {
+    std::cout << "Tip: Cursa Principala F1\n";
+    std::cout << "Locatie: " << getNume() << "\n";
+    std::cout << "Echipe: " << echipe.size() << "\n";
+}
+
+std::ostream &operator<<(std::ostream &os, const CursaF1 &c) {
+    os << "Cursa: " << c.getNume() << "\n";
     os << "Echipe participante:\n";
     for (const auto &e: c.echipe)
         os << e << "\n";

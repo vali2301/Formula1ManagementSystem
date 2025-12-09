@@ -1,7 +1,10 @@
 #include "Meniu.h"
 #include <iostream>
 #include <limits>
-#include "Cursa.h"
+#include <memory>
+#include "CursaF1.h"
+#include "Calificari.h"
+#include "RecunoastereCircuit.h"
 
 
 void Meniu::ruleaza() {
@@ -11,7 +14,13 @@ void Meniu::ruleaza() {
         Echipa("Red Bull", {"Verstappen", "Tsunoda"}),
         Echipa("Ferrari", {"Leclerc", "Hamilton"}),
         Echipa("Mercedes", {"Russell", "Antonelli"}),
-        Echipa("Mclaren", {"Norris", "Piastri"})
+        Echipa("Mclaren", {"Norris", "Piastri"}),
+        Echipa("Aston Martin", {"Alonso", "Stroll"}),
+        Echipa("Alpine", {"Colapinto", "Gasly"}),
+        Echipa("Williams", {"Albon", "Sainz"}),
+        Echipa("RB", {"Lawson", "Hadjar"}),
+        Echipa("Kick Sauber", {"Hulkenberg", "Bortoleto"}),
+        Echipa("Haas", {"Ocon", "Bearman"})
     };
 
     int indexEchipa = alegeEchipa(echipe);
@@ -21,12 +30,39 @@ void Meniu::ruleaza() {
 
     std::cout << "Ai ales pilotul: " << pilotAles << "\n";
 
-    std::vector<std::string> circuite = {"Monaco", "Silverstone", "Spa"};
+    std::vector<std::string> circuite = {
+        "Australia", "China", "Japonia", "Bahrain", "Arabia Saudita", "Miami", "Imola", "Monaco", "Spania",
+   "Canada", "Austria", "Silverstone", "Spa", "Hungaroring", "Olanda", "Monza", "Azerbaijan", "Singapore", "SUA", "Mexic", "interlagos",
+    "Las Vegas", "Qatar", "Abu Dhabi"};
     std::map<std::string, int> scoruri;
 
     for (size_t i = 0; i < circuite.size(); ++i) {
-        Cursa cursa(circuite[i], echipe, campionat);
+        std::string numeCircuit = circuite[i];
 
+        std::vector<std::unique_ptr<Eveniment> > weekend;
+
+        weekend.push_back(std::make_unique<RecunoastereCircuit>(numeCircuit, "Sesiune de orientare (Viteza redusa)."));
+
+        weekend.push_back(std::make_unique<Calificari>(numeCircuit, campionat, echipe));
+
+        CursaF1 cursa(numeCircuit, echipe, campionat);
+
+
+        std::cout << "\n\n************************************************\n";
+        std::cout << " INCEPE WEEKEND-UL DE CURSE: " << numeCircuit << "\n";
+        std::cout << "************************************************\n";
+
+        for (const auto &ev: weekend) {
+            ev->afiseazaDetaliiEveniment();
+            ev->simuleazaEveniment();
+
+            if (auto *calif = dynamic_cast<Calificari *>(ev.get())) {
+                calif->afiseazaGrilaStart();
+            }
+        }
+
+        std::cout << "\n--- START CURSA PRINCIPALA ---\n";
+        cursa.simuleazaEveniment();
         cursa.punctePilotCursa(pilotAles, scoruri);
 
         if (i < circuite.size() - 1) {
@@ -45,9 +81,11 @@ void Meniu::ruleaza() {
 
     campionat.afiseazaClasamentGeneral(scoruri);
     campionat.afiseazaClasamentEchipe(scoruri);
+
+    campionat.afiseazaCelMaiConstantPilot(scoruri, circuite.size());
 }
 
-int Meniu::alegeEchipa(const std::vector<Echipa>& echipe) {
+int Meniu::alegeEchipa(const std::vector<Echipa> &echipe) {
     std::cout << "Alege o echipa:\n";
 
     for (size_t i = 0; i < echipe.size(); ++i)
@@ -56,7 +94,7 @@ int Meniu::alegeEchipa(const std::vector<Echipa>& echipe) {
     int alegere;
     std::cin >> alegere;
 
-    while (alegere < 1 || alegere > (int)echipe.size()) {
+    while (alegere < 1 || alegere > (int) echipe.size()) {
         std::cout << "Optiune invalida. Reincearca: ";
         std::cin >> alegere;
     }
@@ -64,7 +102,7 @@ int Meniu::alegeEchipa(const std::vector<Echipa>& echipe) {
     return alegere - 1;
 }
 
-std::string Meniu::alegePilot(Echipa& echipa) {
+std::string Meniu::alegePilot(Echipa &echipa) {
     auto piloti = echipa.getPiloti();
 
     std::cout << "Alege un pilot:\n";
@@ -74,7 +112,7 @@ std::string Meniu::alegePilot(Echipa& echipa) {
     int alegere;
     std::cin >> alegere;
 
-    while (alegere < 1 || alegere > (int)piloti.size()) {
+    while (alegere < 1 || alegere > (int) piloti.size()) {
         std::cout << "Optiune invalida. Reincearca: ";
         std::cin >> alegere;
     }

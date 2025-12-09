@@ -19,6 +19,7 @@ public:
 
     const std::string& getNume() const;
     std::vector<Pilot>& getPiloti();
+    const std::vector<Pilot>& getPiloti() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Echipa& e);
 };

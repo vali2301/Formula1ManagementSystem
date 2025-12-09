@@ -32,8 +32,10 @@ void Meniu::ruleaza() {
 
     std::vector<std::string> circuite = {
         "Australia", "China", "Japonia", "Bahrain", "Arabia Saudita", "Miami", "Imola", "Monaco", "Spania",
-   "Canada", "Austria", "Silverstone", "Spa", "Hungaroring", "Olanda", "Monza", "Azerbaijan", "Singapore", "SUA", "Mexic", "interlagos",
-    "Las Vegas", "Qatar", "Abu Dhabi"};
+        "Canada", "Austria", "Silverstone", "Spa", "Hungaroring", "Olanda", "Monza", "Azerbaijan", "Singapore", "SUA",
+        "Mexic", "interlagos",
+        "Las Vegas", "Qatar", "Abu Dhabi"
+    };
     std::map<std::string, int> scoruri;
 
     for (size_t i = 0; i < circuite.size(); ++i) {
@@ -41,7 +43,8 @@ void Meniu::ruleaza() {
 
         std::vector<std::unique_ptr<Eveniment> > weekend;
 
-        weekend.push_back(std::make_unique<RecunoastereCircuit>(numeCircuit, "Sesiune de orientare (Viteza redusa)."));
+        weekend.push_back(
+            std::make_unique<RecunoastereCircuit>(numeCircuit, "Sesiune de orientare (Viteza redusa).", echipe));
 
         weekend.push_back(std::make_unique<Calificari>(numeCircuit, campionat, echipe));
 
@@ -66,15 +69,21 @@ void Meniu::ruleaza() {
         cursa.punctePilotCursa(pilotAles, scoruri);
 
         if (i < circuite.size() - 1) {
-            int opt = campionat.meniuCampionat();
-            if (opt == 2) campionat.afiseazaClasamentGeneral(scoruri);
-            if (opt == 3) campionat.afisareRegulament();
-            if (opt == 4) campionat.afisareCircuitInfo();
-            if (opt == 5) campionat.simularePitStop();
-            if (opt == 6) campionat.simulareSafetyCar();
-            if (opt == 7) {
-                std::cout << "Campionatul s-a incheiat!\n";
-                return;
+            bool continua = false;
+            while (!continua) {
+                int opt = campionat.meniuCampionat();
+
+                if (opt == 1) {
+                    continua = true;
+                } else if (opt == 2) campionat.afiseazaClasamentGeneral(scoruri);
+                else if (opt == 3) campionat.afisareRegulament();
+                else if (opt == 4) campionat.afisareCircuitInfo();
+                else if (opt == 5) campionat.simularePitStop();
+                else if (opt == 6) campionat.simulareSafetyCar();
+                else if (opt == 7) {
+                    std::cout << "Campionatul s-a incheiat!\n";
+                    return;
+                }
             }
         }
     }

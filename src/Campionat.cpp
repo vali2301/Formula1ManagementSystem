@@ -100,16 +100,16 @@ void Campionat::afiseazaClasamentGeneral(const std::map<std::string, int> &scoru
 
 void Campionat::afisareRegulament() {
     std::cout << "\n===== REGULAMENT FORMULA 1 =====\n";
-    std::cout << "Locul 1 – 25 puncte\n";
-    std::cout << "Locul 2 – 18 puncte\n";
-    std::cout << "Locul 3 – 15 puncte\n";
-    std::cout << "Locul 4 – 12 puncte\n";
-    std::cout << "Locul 5 – 10 puncte\n";
-    std::cout << "Locul 6 – 8 puncte\n";
-    std::cout << "Locul 7 – 6 puncte\n";
-    std::cout << "Locul 8 – 4 puncte\n";
-    std::cout << "Locul 9 – 2 puncte\n";
-    std::cout << "Locul 10 – 1 punct\n";
+    std::cout << "Locul 1 - 25 puncte\n";
+    std::cout << "Locul 2 - 18 puncte\n";
+    std::cout << "Locul 3 - 15 puncte\n";
+    std::cout << "Locul 4 - 12 puncte\n";
+    std::cout << "Locul 5 - 10 puncte\n";
+    std::cout << "Locul 6 - 8 puncte\n";
+    std::cout << "Locul 7 - 6 puncte\n";
+    std::cout << "Locul 8 - 4 puncte\n";
+    std::cout << "Locul 9 - 2 puncte\n";
+    std::cout << "Locul 10 - 1 punct\n";
 }
 
 void Campionat::simulareVreme() {

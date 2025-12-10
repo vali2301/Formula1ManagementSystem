@@ -12,7 +12,6 @@ private:
     Campionat& campionat;
     std::vector<std::string> listaPiloti;
     std::map<std::string, double> timpiCalificari;
-    // Informație specifică acestei clase, accesată prin dynamic_cast
     std::vector<std::string> grilaStart;
 
 public:

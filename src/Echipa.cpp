@@ -7,7 +7,6 @@ void swap(Echipa& first, Echipa& second) {
     using std::swap;
     swap(first.nume, second.nume);
     swap(first.piloti, second.piloti);
-    // Schimba membrul Motor
     swap(first.motorEchipa, second.motorEchipa);
 }
 

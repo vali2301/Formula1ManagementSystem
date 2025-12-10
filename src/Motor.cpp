@@ -23,7 +23,6 @@ void swap(Motor &first, Motor &second) {
     using std::swap;
     swap(first.producator, second.producator);
     swap(first.putereCP, second.putereCP);
-    // Schimba pointerii (nu continutul)
     swap(first.specificatii, second.specificatii);
 }
 

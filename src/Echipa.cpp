@@ -44,7 +44,7 @@ const std::vector<Pilot> &Echipa::getPiloti() const {
 
 std::ostream &operator<<(std::ostream &os, const Echipa &e) {
     os << "Echipa: " << e.nume << "\n";
-    os << "   Motor: " << e.motorEchipa.getProducator() << "\n"; // Afisam si motorul
+    os << "   Motor: " << e.motorEchipa.getProducator() << "\n";
     os << "   Piloti:\n";
     for (const auto &p: e.piloti)
         os << "      " << p << "\n";

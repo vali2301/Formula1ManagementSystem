@@ -2,9 +2,10 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
+#include <utility>
 
 CursaF1::CursaF1(std::string locatie, std::vector<Echipa> e, Campionat &c)
-    : Eveniment(locatie), echipe(e), puncteF1{25,18,15,12,10,8,6,4,2,1}, campionat(c)
+    : Eveniment(std::move(locatie)), echipe(std::move(e)), puncteF1{25,18,15,12,10,8,6,4,2,1}, campionat(c)
 {}
 
 CursaF1::CursaF1(const CursaF1& other)
@@ -21,7 +22,7 @@ CursaF1& CursaF1::operator=(const CursaF1& other) {
 
 void CursaF1::simuleazaEveniment() {
     std::cout << "\n[SIMULARE] Cursa F1 din " << getNume() << " a inceput!\n";
-    campionat.simulareVreme();
+    Campionat::simulareVreme();
 }
 
 int CursaF1::punctePilotCursa(const std::string &pilotAles, std::map<std::string, int> &scoruri) {
@@ -64,8 +65,8 @@ int CursaF1::punctePilotCursa(const std::string &pilotAles, std::map<std::string
         int puncte = (i < puncteF1.size()) ? puncteF1[i] : 0;
         totiPiloti[i].adaugaPuncte(puncte);
         scoruri[totiPiloti[i].getNume()] += puncte;
-        rezultate.push_back({totiPiloti[i].getNume(), timpi[i]});
-        clasamentFinal.push_back({totiPiloti[i].getNume(), puncte});
+        rezultate.emplace_back(totiPiloti[i].getNume(), timpi[i]);
+        clasamentFinal.emplace_back(totiPiloti[i].getNume(), puncte);
 
         if (totiPiloti[i].getNume() == pilotAles)
             punctePilot = puncte;

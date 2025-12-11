@@ -18,7 +18,7 @@ public:
 
     ~Pilot();
 
-    const std::string &getNume() const;
+    [[nodiscard]] const std::string &getNume() const;
 
     void adaugaPuncte(int p);
 

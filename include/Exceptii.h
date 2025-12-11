@@ -1,19 +1,19 @@
 #ifndef EXCEPTII_H
 #define EXCEPTII_H
 
-#include <stdexcept>
 #include <string>
+#include <utility>
 
 class CampionatException : public std::exception {
 private:
     std::string mesaj;
 
 public:
-    CampionatException(const std::string &msg) : mesaj(msg) {
+    explicit CampionatException(std::string msg) : mesaj(std::move(msg)) {
     }
 
 
-    virtual const char *what() const noexcept override {
+    [[nodiscard]] const char *what() const noexcept override {
         return mesaj.c_str();
     }
 };
@@ -21,21 +21,21 @@ public:
 
 class EroarePilotInvalid : public CampionatException {
 public:
-    EroarePilotInvalid(const std::string &msg) : CampionatException(msg) {
+    explicit EroarePilotInvalid(const std::string &msg) : CampionatException(msg) {
     }
 };
 
 
 class EroareOptiuneMeniu : public CampionatException {
 public:
-    EroareOptiuneMeniu(const std::string &msg) : CampionatException(msg) {
+    explicit EroareOptiuneMeniu(const std::string &msg) : CampionatException(msg) {
     }
 };
 
 
 class EroareSimulareCursa : public CampionatException {
 public:
-    EroareSimulareCursa(const std::string &msg) : CampionatException(msg) {
+    explicit EroareSimulareCursa(const std::string &msg) : CampionatException(msg) {
     }
 };
 

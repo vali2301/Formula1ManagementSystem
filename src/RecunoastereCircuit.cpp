@@ -3,12 +3,13 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
+#include <utility>
 #include <vector>
 #include <map>
 
 
-RecunoastereCircuit::RecunoastereCircuit(const std::string &n, const std::string &d, const std::vector<Echipa> &echipe)
-    : Eveniment(n), detalii(d) {
+RecunoastereCircuit::RecunoastereCircuit(const std::string &n, std::string d, const std::vector<Echipa> &echipe)
+    : Eveniment(n), detalii(std::move(d)) {
     for (const auto &echipa: echipe) {
         for (const auto &pilot: echipa.getPiloti()) {
             listaPiloti.push_back(pilot.getNume());

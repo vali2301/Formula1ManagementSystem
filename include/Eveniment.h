@@ -2,27 +2,28 @@
 #define EVENIMENT_H
 
 #include <string>
+#include <utility>
 
 class Eveniment {
 private:
     std::string nume;
 
 public:
-    explicit Eveniment(const std::string &n) : nume(n) {
+    explicit Eveniment(std::string n) : nume(std::move(n)) {
     }
 
     virtual ~Eveniment();
 
     virtual void simuleazaEveniment() = 0;
 
-    virtual Eveniment *clone() const = 0;
+    [[nodiscard]] virtual Eveniment *clone() const = 0;
 
     virtual void afisareVirtuala() const = 0;
 
-    virtual double calculeazaRiscAbandon() const = 0; //virtuala pura(sper)
+    [[nodiscard]] virtual double calculeazaRiscAbandon() const = 0; //virtuala pura(sper)
 
     void afiseazaDetaliiEveniment() const;
 
-    const std::string &getNume() const { return nume; }
+    [[nodiscard]] const std::string &getNume() const { return nume; }
 };
 #endif

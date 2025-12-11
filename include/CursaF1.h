@@ -19,10 +19,13 @@ private:
 public:
     CursaF1(std::string locatie, std::vector<Echipa> echipe, Campionat &campionat);
 
-    virtual void simuleazaEveniment() override;
-    virtual Eveniment* clone() const override;
-    virtual void afisareVirtuala() const override;
-    virtual double calculeazaRiscAbandon() const override;
+    void simuleazaEveniment()  override;
+
+    [[nodiscard]] Eveniment* clone() const override;
+
+    void afisareVirtuala() const override;
+
+    [[nodiscard]] double calculeazaRiscAbandon() const override;
 
     int punctePilotCursa(const std::string &pilotAles, std::map<std::string, int> &scoruri);
 

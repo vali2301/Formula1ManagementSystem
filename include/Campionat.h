@@ -9,27 +9,27 @@ private:
     static int curseTotalDesfasurate;
 
 public:
-    void afiseazaClasamentEchipe(const std::map<std::string, int> &scoruri);
+    static void afiseazaClasamentEchipe(const std::map<std::string, int> &scoruri);
 
-    void afiseazaCelMaiConstantPilot(const std::map<std::string, int> &scoruri, int curseTotale);
+    static void afiseazaCelMaiConstantPilot(const std::map<std::string, int> &scoruri, int curseTotale);
 
     static void incrementeazaCurseTotal();
 
     static void afiseazaStatisticaCampionat();
 
-    int meniuCampionat();
+    static int meniuCampionat();
 
-    void afiseazaClasamentGeneral(const std::map<std::string, int> &scoruriExistente);
+    static void afiseazaClasamentGeneral(const std::map<std::string, int> &scoruriExistente);
 
-    void afisareRegulament();
+    static void afisareRegulament();
 
-    void simulareVreme();
+    static void simulareVreme();
 
-    void afisareCircuitInfo();
+    static void afisareCircuitInfo();
 
-    void simularePitStop();
+    static void simularePitStop();
 
-    void simulareSafetyCar();
+    static void simulareSafetyCar();
 };
 
 #endif

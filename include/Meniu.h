@@ -4,16 +4,17 @@
 #include <vector>
 #include <string>
 #include "Echipa.h"
-#include "Campionat.h"
 
 class Meniu {
 public:
     Meniu() = default;
-    void ruleaza();
+
+    static void ruleaza();
 
 private:
-    int alegeEchipa(const std::vector<Echipa>& echipe);
-    std::string alegePilot(Echipa& echipa);
+    static int alegeEchipa(const std::vector<Echipa>& echipe);
+
+    static std::string alegePilot(Echipa& echipa);
 };
 
 #endif

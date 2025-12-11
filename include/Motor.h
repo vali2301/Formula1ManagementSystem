@@ -11,16 +11,16 @@ private:
     char* specificatii;
 
 public:
-    Motor(const std::string& prod, int cp, const std::string& spec);
+    Motor(std::string  prod, int cp, const std::string& spec);
     ~Motor();
 
     // rof
     Motor(const Motor& other);
     Motor& operator=(Motor other);
 
-    friend void swap(Motor& first, Motor& second);
+    friend void swap(Motor& first, Motor& second) noexcept;
 
-    const std::string& getProducator() const { return producator; }
+    [[nodiscard]] const std::string& getProducator() const { return producator; }
 };
 
 #endif

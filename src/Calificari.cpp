@@ -12,6 +12,8 @@ Calificari::Calificari(const std::string &n, Campionat &c, const std::vector<Ech
     }
 }
 
+Calificari::~Calificari() = default;
+
 Calificari::Calificari(const Calificari &other)
     : Eveniment(other), campionat(other.campionat), listaPiloti(other.listaPiloti),
       timpiCalificari(other.timpiCalificari), grilaStart(other.grilaStart) {

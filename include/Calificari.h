@@ -17,20 +17,20 @@ private:
 public:
     Calificari(const std::string& n, Campionat& c, const std::vector<Echipa>& echipe);
 
-    virtual ~Calificari() override = default;
+    ~Calificari() override;
 
-    virtual double calculeazaRiscAbandon() const override;
+    [[nodiscard]] double calculeazaRiscAbandon() const override;
 
     Calificari(const Calificari& other);
     Calificari& operator=(const Calificari& other);
 
-    virtual void simuleazaEveniment() override;
+    void simuleazaEveniment() override;
 
-    virtual Eveniment* clone() const override;
+    [[nodiscard]] Eveniment* clone() const override;
 
-    virtual void afisareVirtuala() const override;
+    void afisareVirtuala() const override;
 
-    const std::vector<std::string>& getGrilaStart() const;
+    [[nodiscard]] const std::vector<std::string>& getGrilaStart() const;
     void afiseazaGrilaStart() const;
 };
 

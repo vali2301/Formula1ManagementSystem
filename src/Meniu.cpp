@@ -93,14 +93,14 @@ void Meniu::ruleaza() {
             bool continua = false;
             while (!continua) {
                 try {
-                    int opt = campionat.meniuCampionat();
+                    int opt = Campionat::meniuCampionat();
                     if (opt == 1) {
                         continua = true;
-                    } else if (opt == 2) campionat.afiseazaClasamentGeneral(scoruri);
-                    else if (opt == 3) campionat.afisareRegulament();
-                    else if (opt == 4) campionat.afisareCircuitInfo();
-                    else if (opt == 5) campionat.simularePitStop();
-                    else if (opt == 6) campionat.simulareSafetyCar();
+                    } else if (opt == 2) Campionat::afiseazaClasamentGeneral(scoruri);
+                    else if (opt == 3) Campionat::afisareRegulament();
+                    else if (opt == 4) Campionat::afisareCircuitInfo();
+                    else if (opt == 5) Campionat::simularePitStop();
+                    else if (opt == 6) Campionat::simulareSafetyCar();
                     else if (opt == 7) {
                         std::cout << "Campionatul s-a incheiat!\n";
                         return;
@@ -114,10 +114,10 @@ void Meniu::ruleaza() {
     }
 
     std::cout << "\n\n======== CLASAMENT FINAL CAMPIONAT ========\n";
-    campionat.afiseazaClasamentGeneral(scoruri);
-    campionat.afiseazaClasamentEchipe(scoruri);
+    Campionat::afiseazaClasamentGeneral(scoruri);
+    Campionat::afiseazaClasamentEchipe(scoruri);
     Campionat::afiseazaStatisticaCampionat();
-    campionat.afiseazaCelMaiConstantPilot(scoruri, circuite.size());
+    Campionat::afiseazaCelMaiConstantPilot(scoruri, circuite.size());
 }
 
 int Meniu::alegeEchipa(const std::vector<Echipa> &echipe) {

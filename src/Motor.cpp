@@ -1,9 +1,10 @@
 #include "Motor.h"
 #include <cstring>
 #include <algorithm>
+#include <utility>
 
-Motor::Motor(const std::string &prod, int cp, const std::string &spec)
-    : producator(prod), putereCP(cp) {
+Motor::Motor(std::string prod, int cp, const std::string &spec)
+    : producator(std::move(prod)), putereCP(cp) {
     specificatii = new char[spec.length() + 1];
     std::strcpy(specificatii, spec.c_str());
 }
@@ -19,7 +20,7 @@ Motor::Motor(const Motor &other)
 }
 
 
-void swap(Motor &first, Motor &second) {
+void swap(Motor &first, Motor &second) noexcept {
     using std::swap;
     swap(first.producator, second.producator);
     swap(first.putereCP, second.putereCP);

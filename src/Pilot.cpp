@@ -1,6 +1,8 @@
 #include "Pilot.h"
 
-Pilot::Pilot(std::string n) : nume(n), puncte(0) {
+#include <utility>
+
+Pilot::Pilot(std::string n) : nume(std::move(n)), puncte(0) {
 }
 
 Pilot::Pilot(const Pilot &p) = default;

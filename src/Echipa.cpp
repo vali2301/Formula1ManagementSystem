@@ -1,9 +1,10 @@
 #include "Echipa.h"
 #include <algorithm>
 #include <iostream>
+#include <utility>
 #include <vector>
 
-void swap(Echipa& first, Echipa& second) {
+void swap(Echipa& first, Echipa& second) noexcept {
     using std::swap;
     swap(first.nume, second.nume);
     swap(first.piloti, second.piloti);
@@ -11,8 +12,8 @@ void swap(Echipa& first, Echipa& second) {
 }
 
 
-Echipa::Echipa(const std::string& n, std::vector<std::string> numePiloti, const std::string& motorProd, int motorCP, const std::string& motorSerie)
-    : nume(n), motorEchipa(motorProd, motorCP, motorSerie) {
+Echipa::Echipa(std::string  n, const std::vector<std::string>& numePiloti, const std::string& motorProd, int motorCP, const std::string& motorSerie)
+    : nume(std::move(n)), motorEchipa(motorProd, motorCP, motorSerie) {
     for (auto& p : numePiloti)
         piloti.emplace_back(p);
 }

@@ -133,7 +133,7 @@ void Campionat::simulareVreme() {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dist(0, conditii.size() - 1);
-    std::string vreme = conditii[dist(gen)];
+    const std::string vreme = conditii[dist(gen)];
 
     std::cout << "\nConditiile meteo pentru aceasta cursa: " << vreme << "\n";
     if (vreme == " Ploaie") {

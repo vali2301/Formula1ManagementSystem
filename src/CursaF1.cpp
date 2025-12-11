@@ -120,3 +120,29 @@ std::ostream &operator<<(std::ostream &os, const CursaF1 &c) {
         os << e << "\n";
     return os;
 }
+
+double CursaF1::calculeazaRiscAbandon() const {
+    double riscBaza = 0.10;
+    double riscSuplimentar = 0.0;
+
+    if (getNume().find("Monaco") != std::string::npos ||
+        getNume().find("Spa") != std::string::npos ||
+        getNume().find("Las Vegas") != std::string::npos) {
+
+        riscSuplimentar += 0.05;
+        std::cout << "[Risc Cursa] +5% risc pentru viraje stradale/periculoase.\n";
+
+        } else if (getNume().find("Monza") != std::string::npos) {
+
+            riscSuplimentar += 0.03; // Solicitare mare a motorului
+            std::cout << "[Risc Cursa]+ 3% risc pentru solicitare mare a motorului.\n";
+        }
+
+    if (rand() % 100 < 20) {
+        riscSuplimentar += 0.08;
+        std::cout << "[Risc Cursa] +8% risc din cauza conditiilor meteo precare.\n";
+    }
+
+    double riscFinal = riscBaza + riscSuplimentar;
+    return std::min(riscFinal, 0.50);
+}

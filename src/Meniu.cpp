@@ -65,12 +65,26 @@ void Meniu::ruleaza() {
 
             if (auto *calif = dynamic_cast<Calificari *>(ev.get())) {
                 calif->afiseazaGrilaStart();
+
+                double riscAbandon = ev->calculeazaRiscAbandon();
+                std::cout << ">>> RISC DINAMIC DE ABANDON (Calificari): " << (riscAbandon * 100) << "%\n";
+            }
+
+            if (dynamic_cast<RecunoastereCircuit *>(ev.get())) {
+                double riscAbandon = ev->calculeazaRiscAbandon();
+                std::cout << ">>> RISC DINAMIC DE ABANDON (Recunoastere): " << (riscAbandon * 100) << "%\n";
+                std::cout << "------------------------------------------------\n";
             }
         }
+
 
         std::cout << "\n--- START CURSA PRINCIPALA ---\n";
         cursa.simuleazaEveniment();
         cursa.punctePilotCursa(pilotAles, scoruri);
+
+        double riscAbandonCursa = cursa.calculeazaRiscAbandon();
+        std::cout << "\n>>> RISC DINAMIC DE ABANDON (Cursa F1): " << (riscAbandonCursa * 100) << "%\n";
+        std::cout << "------------------------------------------------\n";
         Campionat::incrementeazaCurseTotal();
 
         Campionat::afiseazaStatisticaCampionat();

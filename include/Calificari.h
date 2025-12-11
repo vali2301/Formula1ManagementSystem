@@ -19,6 +19,8 @@ public:
 
     virtual ~Calificari() override = default;
 
+    virtual double calculeazaRiscAbandon() const override;
+
     Calificari(const Calificari& other);
     Calificari& operator=(const Calificari& other);
 

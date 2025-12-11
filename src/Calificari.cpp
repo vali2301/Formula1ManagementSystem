@@ -76,3 +76,22 @@ void Calificari::afiseazaGrilaStart() const {
         std::cout << i + 1 << ". " << grilaStart[i] << "\n";
     }
 }
+
+double Calificari::calculeazaRiscAbandon() const {
+    double riscBaza = 0.05;
+    double riscSuplimentar = 0.0;
+
+    if (getNume().find("Japonia") != std::string::npos ||
+        getNume().find("Silverstone") != std::string::npos) {
+
+        riscSuplimentar += 0.04; //
+        std::cout << "[Risc Calificari] +4% risc pentru erori de pilotaj pe circuite rapide.\n";
+        }
+
+    if (rand() % 10 == 0) {
+        riscSuplimentar += 0.05;
+        std::cout << "[Risc Calificari] +5% risc, pilotul forteaza peste limita.\n";
+    }
+
+    return riscBaza + riscSuplimentar;
+}

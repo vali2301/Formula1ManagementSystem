@@ -16,6 +16,7 @@ public:
     RecunoastereCircuit(const std::string& n, const std::string& d, const std::vector<Echipa>& echipe);
 
     virtual ~RecunoastereCircuit() override = default;
+    virtual double calculeazaRiscAbandon() const override;
 
     RecunoastereCircuit(const RecunoastereCircuit& other);
     RecunoastereCircuit& operator=(const RecunoastereCircuit& other);

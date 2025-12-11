@@ -22,6 +22,7 @@ public:
     virtual void simuleazaEveniment() override;
     virtual Eveniment* clone() const override;
     virtual void afisareVirtuala() const override;
+    virtual double calculeazaRiscAbandon() const override;
 
     int punctePilotCursa(const std::string &pilotAles, std::map<std::string, int> &scoruri);
 

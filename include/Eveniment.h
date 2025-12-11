@@ -19,6 +19,8 @@ public:
 
     virtual void afisareVirtuala() const = 0;
 
+    virtual double calculeazaRiscAbandon() const = 0; //virtuala pura(sper)
+
     void afiseazaDetaliiEveniment() const;
 
     const std::string &getNume() const { return nume; }

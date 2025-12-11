@@ -65,3 +65,22 @@ void RecunoastereCircuit::afisareVirtuala() const {
     std::cout << "Circuit: " << getNume() << "\n";
     std::cout << "Scurta descriere: " << detalii << "\n";
 }
+
+double RecunoastereCircuit::calculeazaRiscAbandon() const {
+    double riscBaza = 0.01;
+    double riscSuplimentar = 0.0;
+
+    if (getNume().find("Las Vegas") != std::string::npos ||
+        getNume().find("Qatar") != std::string::npos) {
+
+        riscSuplimentar += 0.02;
+        std::cout << "[Risc Recunoastere] +2% risc din cauza unor probleme de setup pe circuit nou.\n";
+        }
+
+    if (rand() % 100 < 15) {
+        riscSuplimentar += 0.02;
+        std::cout << "[Risc Recunoastere] +2% risc din cauza unor probleme tehnice de inceput de weekend.\n";
+    }
+
+    return riscBaza + riscSuplimentar;
+}

@@ -23,7 +23,7 @@ public:
     [[nodiscard]] const std::string& getNume() const;
     std::vector<Pilot>& getPiloti();
     [[nodiscard]] const std::vector<Pilot>& getPiloti() const;
-    [[nodiscard]] const Motor& getMotor() const { return motorEchipa; }
+    [[maybe_unused]] [[nodiscard]] const Motor& getMotor() const { return motorEchipa; }
 
     friend std::ostream& operator<<(std::ostream& os, const Echipa& e);
 };

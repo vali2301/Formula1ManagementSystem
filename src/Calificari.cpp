@@ -44,8 +44,8 @@ void Calificari::simuleazaEveniment() {
     }
 
     std::vector<std::pair<std::string, double> > clasament(timpiCalificari.begin(), timpiCalificari.end());
-    std::sort(clasament.begin(), clasament.end(),
-              [](const auto &a, const auto &b) { return a.second < b.second; });
+    std::ranges::sort(clasament,
+                      [](const auto &a, const auto &b) { return a.second < b.second; });
 
     grilaStart.clear();
     std::cout << "Clasament Calificari:\n";
@@ -68,7 +68,7 @@ void Calificari::afisareVirtuala() const {
     std::cout << "Sesiune: " << getNume() << "\n";
 }
 
-const std::vector<std::string> &Calificari::getGrilaStart() const {
+[[maybe_unused]] const std::vector<std::string> &Calificari::getGrilaStart() const {
     return grilaStart;
 }
 

@@ -19,10 +19,10 @@ void ConditiiMeteo::schimbaVremea() {
 
     int alegere = dist(gen);
 
-    if (alegere <= 1) {
+    if (alegere == 0 ) {
         vremeActuala = PloaieUsoara;
         coeficientAderenta = 0.95;
-    } else if (alegere == 0) {
+    } else if (alegere == 1) {
         vremeActuala = PloaieTorentiala;
         coeficientAderenta = 0.88;
     } else if (alegere <= 3) {

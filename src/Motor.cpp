@@ -31,3 +31,4 @@ Motor &Motor::operator=(Motor other) {
     swap(*this, other);
     return *this;
 }
+

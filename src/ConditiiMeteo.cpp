@@ -2,10 +2,14 @@
 #include <iostream>
 #include <random>
 
-ConditiiMeteo::ConditiiMeteo(const std::string& circuit)
-    : numeCircuit(circuit), vremeActuala(Soare), coeficientAderenta(1.0) {
+ConditiiMeteo::ConditiiMeteo(const sd::string &circuit)
+    : vremeActuala(Soare),
+      coeficientAderenta(1.0),
+      numeCircuit(circuit)
+{
     schimbaVremea();
 }
+
 
 void ConditiiMeteo::schimbaVremea() {
     std::random_device rd;

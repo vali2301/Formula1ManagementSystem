@@ -2,7 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <random>
-
+#include "StatisticiCampionat.h"
 Calificari::Calificari(const std::string &n, Campionat &c, const std::vector<Echipa> &echipe)
     : Eveniment(n), campionat(c) {
     for (const auto &echipa: echipe) {
@@ -52,6 +52,10 @@ void Calificari::simuleazaEveniment() {
     for (size_t i = 0; i < clasament.size(); ++i) {
         grilaStart.push_back(clasament[i].first);
         std::cout << i + 1 << ". " << clasament[i].first << " (" << clasament[i].second << "s)\n";
+    }
+    if (!grilaStart.empty()) {
+        StatisticiCampionat::getInstanta()
+            .inregistreazaPolePosition(grilaStart[0]);
     }
 }
 

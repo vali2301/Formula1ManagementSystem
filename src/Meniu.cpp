@@ -9,6 +9,7 @@
 #include "CursaF1.h"
 #include "Calificari.h"
 #include "RecunoastereCircuit.h"
+#include  <StatisticiCampionat.h>
 
 
 void Meniu::ruleaza() {
@@ -118,6 +119,8 @@ void Meniu::ruleaza() {
     Campionat::afiseazaClasamentEchipe(scoruri);
     Campionat::afiseazaStatisticaCampionat();
     Campionat::afiseazaCelMaiConstantPilot(scoruri, circuite.size());
+    StatisticiCampionat::getInstanta()
+    .afiseazaStatisticiSezon();
 }
 
 int Meniu::alegeEchipa(const std::vector<Echipa> &echipe) {

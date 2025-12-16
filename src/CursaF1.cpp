@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <random>
 #include <utility>
+#include "StatisticiCampionat.h"
 
 CursaF1::CursaF1(std::string locatie, std::vector<Echipa> e, Campionat &c)
     : Eveniment(std::move(locatie)), echipe(std::move(e)), puncteF1{25,18,15,12,10,8,6,4,2,1}, campionat(c), conditii(getNume())
@@ -48,6 +49,7 @@ int CursaF1::punctePilotCursa(const std::string &pilotAles, std::map<std::string
         }
     }
 
+
     std::cout << "Clasament final pentru " << getNume() << ":\n";
 
     std::uniform_real_distribution<> distTimp(75.0, 80.0);
@@ -84,12 +86,22 @@ int CursaF1::punctePilotCursa(const std::string &pilotAles, std::map<std::string
                 << " pct | Timp: " << rezultate[i].second
                 << " min | +" << diferenta << "s\n";
     }
+    for (size_t i = 0; i < 3 && i < rezultate.size(); ++i) {
+        StatisticiCampionat::getInstanta()
+            .inregistreazaPilotPePodium(rezultate[i].first, i + 1);
+    }
 
     if (!abandonuri.empty()) {
         std::cout << "\nAbandonuri (DNF):\n";
-        for (const auto &nume: abandonuri)
+
+        for (const auto &nume : abandonuri) {
             std::cout << "- " << nume << " (DNF)\n";
+
+            StatisticiCampionat::getInstanta()
+                .inregistreazaAbandon(nume);
+        }
     }
+
 
     std::cout << "\nCel mai rapid tur: " << pilotBonus << " (+1 punct bonus)\n";
 
@@ -102,6 +114,7 @@ int CursaF1::punctePilotCursa(const std::string &pilotAles, std::map<std::string
                 << " si a obtinut " << punctePilot << " puncte.\n";
 
     return punctePilot;
+
 }
 
 
@@ -128,7 +141,7 @@ double CursaF1::calculeazaRiscAbandon() const {
     double riscSuplimentar = 0.0;
     if (conditii.getCoeficientAderenta() < 1.0) {
         riscSuplimentar += 0.05 * (1.0 - conditii.getCoeficientAderenta());
-        std::cout << "[+ " << (riscSuplimentar * 100) <<
+        std::cout << "+ " << (riscSuplimentar * 100) <<
                 "% risc din cauza vremii dificile/aderentei scazute.\n";
     }
 

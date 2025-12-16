@@ -6,6 +6,7 @@
 #include <vector>
 #include <random>
 #include <limits>
+#include <fstream>
 
 int Campionat::curseTotalDesfasurate = 0;
 
@@ -149,36 +150,24 @@ void Campionat::afisareRegulament() {
 */
 
 void Campionat::afisareCircuitInfo() {
-    std::map<std::string, std::string> info = {
-        {"Australia", "Circuit semi-stradal in Melbourne, faimos pentru sectiunile rapide si aderenta scazuta."},
-        {"China", "Circuit cu design unic, notabil pentru virajele 1 si 2 in spirala."},
-        {"Japonia", "Suzuka: Circuit tehnic, celebru pentru S-uri si cursa in stil traditional F1."},
-        {"Bahrain", "Circuit in desert, renumit pentru franele puternice si cursa nocturna."},
-        {"Arabia Saudita", "Jeddah: Cel mai rapid circuit stradal din lume, cu vizibilitate redusa."},
-        {"Miami", "Circuit stradal nou, construit in jurul stadionului Hard Rock."},
-        {"Imola", "Circuit istoric in Italia, cu sectiuni inguste si traditionale."},
-        {"Monaco", "Circuit urban, cel mai lent si tehnic din calendar."},
-        {"Spania", "Circuit near Barcelona, adesea folosit pentru teste, cu aerodinamica solicitanta."},
-        {"Canada", "Circuit semi-stradal rapid, celebru pentru 'Zidul Campionilor'."},
-        {"Austria", "Red Bull Ring: Circuit scurt si rapid, cu multe schimbari de nivel."},
-        {"Silverstone", "Marea Britanie: Circuit rapid, cu viraje faimoase (Copse, Maggotts)."},
-        {"Spa", "Belgia: Cel mai lung circuit – 7 km, faimos pentru virajul Eau Rouge."},
-        {"Hungaroring", "Circuit lent si virajat, comparat cu unul de karting, dificil pentru depasiri."},
-        {"Olanda", "Zandvoort: Circuit retro pe dune, cu viraje inclinate (banking) solicitante."},
-        {"Monza", "Italia: 'Templul Vitezei', circuit cu cea mai mare viteza medie."},
-        {"Azerbaijan", "Circuit stradal in Baku, cu o sectiune de castel ingusta si o linie dreapta lunga."},
-        {"Singapore", "Circuit stradal nocturn, extrem de solicitant fizic datorita caldurii si umiditatii."},
-        {"SUA", "COTA: Circuit modern in Texas, cu o combinatie de viraje rapide si tehnice."},
-        {"Mexic", "Autodromo Hermanos Rodriguez: Altitudine mare, aer rarefiat si intrarea spectaculoasa prin stadion."},
-        {"Interlagos", "Brazilia: Circuit clasic, cu tururi scurte si sectiuni in urcare/coborare."},
-        {"Las Vegas", "Circuit stradal nocturn, cu o sectiune de lungime mare pe 'Strip'."},
-        {"Qatar", "Lusail: Circuit relativ nou, cu vizibilitate redusa si temperaturi ridicate."},
-        {"Abu Dhabi", "Yas Marina: Finala sezonului, cu un hotel impresionant si sectiuni lente si rapide."}
-    };
+    std::ifstream fin("cmake-build-debug/data/circuite_info.txt");
+    if (!fin) {
+        std::cout << "Nu pot deschide fisierul data/circuite_info.txt\n";
+        return;
+    }
 
     std::cout << "\n===== CIRCUITE =====\n";
-    for (const auto &c: info)
-        std::cout << c.first << ": " << c.second << "\n";
+    std::string linie;
+
+    while (std::getline(fin, linie)) {
+        auto pos = linie.find(';');
+        if (pos != std::string::npos) {
+            std::cout << linie.substr(0, pos)
+                      << ": "
+                      << linie.substr(pos + 1)
+                      << "\n";
+        }
+    }
 }
 
 void Campionat::simularePitStop() {

@@ -93,7 +93,7 @@ double Calificari::calculeazaRiscAbandon() const {
         || getNume().find("Las Vegas") != std::string::npos) {
 
         riscSuplimentar += 0.04; //
-        std::cout << "+4% risc pentru erori de pilotaj pe circuite rapide.\n";
+        std::cout << "+4% risc pentru erori de pilotaj pe circuite.txt rapide.\n";
         }
 
     if (rand() % 10 == 0) {

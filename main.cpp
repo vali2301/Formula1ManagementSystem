@@ -11,7 +11,7 @@ int main() {
         std::cerr << "Detalii: " << e.what() << "\n";
         return 1;
     } catch (const CampionatException &e) {
-        std::cerr << "\n[EROARE CAMPIONAT] O xceptie interna neasteptata a cauzat oprirea programului.\n";
+        std::cerr << "\n[EROARE CAMPIONAT] O exceptie interna neasteptata a cauzat oprirea programului.\n";
         std::cerr << "Detalii: " << e.what() << "\n";
         return 1;
     } catch (const std::exception &e) {

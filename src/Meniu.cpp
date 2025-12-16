@@ -10,23 +10,62 @@
 #include "Calificari.h"
 #include "RecunoastereCircuit.h"
 #include  <StatisticiCampionat.h>
+#include <fstream>
+#include <sstream>
+
+static std::vector<Echipa> citesteEchipe(const std::string& fisier) {
+    std::ifstream fin(fisier);
+    if (!fin)
+        throw CampionatException("Nu pot deschide fisierul " + fisier);
+
+    std::vector<Echipa> echipe;
+    std::string linie;
+
+    while (std::getline(fin, linie)) {
+        if (linie.empty()) continue;
+
+        std::stringstream ss(linie);
+        std::string nume, pilotiStr, motorProd, motorSerie;
+        int motorCP;
+
+        std::getline(ss, nume, ';');
+        std::getline(ss, pilotiStr, ';');
+        std::getline(ss, motorProd, ';');
+        ss >> motorCP;
+        ss.ignore(1); // ;
+        std::getline(ss, motorSerie);
+
+        std::vector<std::string> piloti;
+        std::stringstream sp(pilotiStr);
+        std::string p;
+        while (std::getline(sp, p, ',')) piloti.push_back(p);
+
+        echipe.emplace_back(nume, piloti, motorProd, motorCP, motorSerie);
+    }
+
+    return echipe;
+}
+
+static std::vector<std::string> citesteCircuite(const std::string& fisier) {
+    std::ifstream fin(fisier);
+    if (!fin)
+        throw CampionatException("Nu pot deschide fisierul " + fisier);
+
+    std::vector<std::string> circuite;
+    std::string linie;
+    while (std::getline(fin, linie))
+        if (!linie.empty())
+            circuite.push_back(linie);
+
+    return circuite;
+}
 
 
 void Meniu::ruleaza() {
     Campionat campionat;
 
-    std::vector<Echipa> echipe = {
-        Echipa("Red Bull", {"Verstappen", "Tsunoda"}, "Honda RBPT", 1000, "HR01-V6-T-25"),
-        Echipa("Ferrari", {"Leclerc", "Hamilton"}, "Ferrari", 990, "FE02-V6-T-25"),
-        Echipa("Mercedes", {"Russell", "Antonelli"}, "Mercedes", 995, "ME03-V6-T-25"),
-        Echipa("Mclaren", {"Norris", "Piastri"}, "Mercedes", 995, "ME04-V6-T-25"),
-        Echipa("Aston Martin", {"Alonso", "Stroll"}, "Mercedes", 990, "ME05-V6-T-25"),
-        Echipa("Alpine", {"Colapinto", "Gasly"}, "Renault", 980, "RE06-V6-T-25"),
-        Echipa("Williams", {"Albon", "Sainz"}, "Mercedes", 985, "ME07-V6-T-25"),
-        Echipa("RB", {"Lawson", "Hadjar"}, "Honda RBPT", 990, "HR08-V6-T-25"),
-        Echipa("Kick Sauber", {"Hulkenberg", "Bortoleto"}, "Ferrari", 980, "FE09-V6-T-25"),
-        Echipa("Haas", {"Ocon", "Bearman"}, "Ferrari", 980, "FE10-V6-T-25")
-    };
+    std::vector<Echipa> echipe = citesteEchipe("cmake-build-debug/data/echipe.txt");
+    std::vector<std::string> circuite = citesteCircuite("cmake-build-debug/data/circuite.txt");
 
     int indexEchipa = alegeEchipa(echipe);
     Echipa echipaSelectata = echipe[indexEchipa];
@@ -35,12 +74,6 @@ void Meniu::ruleaza() {
 
     std::cout << "Ai ales pilotul: " << pilotAles << "\n";
 
-    std::vector<std::string> circuite = {
-        "Australia", "China", "Japonia", "Bahrain", "Arabia Saudita", "Miami", "Imola", "Monaco", "Spania",
-        "Canada", "Austria", "Silverstone", "Spa", "Hungaroring", "Olanda", "Monza", "Azerbaijan", "Singapore", "SUA",
-        "Mexic", "Interlagos",
-        "Las Vegas", "Qatar", "Abu Dhabi"
-    };
     std::map<std::string, int> scoruri;
 
     for (size_t i = 0; i < circuite.size(); ++i) {

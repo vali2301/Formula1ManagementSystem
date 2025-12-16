@@ -129,7 +129,7 @@ int Meniu::alegeEchipa(const std::vector<Echipa> &echipe) {
     int alegere;
     std::cout << "Alegere: ";
 
-    if (!(std::cin >> alegere) || alegere < 1 || alegere > (int) echipe.size()) {
+    if (!(std::cin >> alegere) || alegere < 1 || alegere > static_cast<int>(echipe.size())) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -149,7 +149,7 @@ std::string Meniu::alegePilot(Echipa &echipa) {
     int alegere;
     std::cout << "Alegere: ";
 
-    if (!(std::cin >> alegere) || alegere < 1 || alegere > (int) piloti.size()) {
+    if (!(std::cin >> alegere) || alegere < 1 || alegere > static_cast<int>(piloti.size())) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         throw EroarePilotInvalid("Selectia pilotului este invalida sau in afara intervalului.");

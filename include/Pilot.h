@@ -12,6 +12,7 @@ private:
 public:
     explicit Pilot(std::string n);
 
+
     Pilot(const Pilot &);
 
     Pilot &operator=(const Pilot &);

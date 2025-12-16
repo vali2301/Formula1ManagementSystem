@@ -31,7 +31,7 @@ Calificari &Calificari::operator=(const Calificari &other) {
 
 void Calificari::simuleazaEveniment() {
     std::cout << "\n[SIMULARE] Calificari (" << getNume() << ")\n";
-    campionat.simulareVreme();
+    //campionat.simulareVreme();
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -84,15 +84,17 @@ double Calificari::calculeazaRiscAbandon() const {
     double riscSuplimentar = 0.0;
 
     if (getNume().find("Japonia") != std::string::npos ||
-        getNume().find("Silverstone") != std::string::npos) {
+        getNume().find("Silverstone") != std::string::npos  || getNume().find("Monaco") != std::string::npos
+        || getNume().find("Singapore") != std::string::npos || getNume().find("Azerbaijan") != std::string::npos
+        || getNume().find("Las Vegas") != std::string::npos) {
 
         riscSuplimentar += 0.04; //
-        std::cout << "[Risc Calificari] +4% risc pentru erori de pilotaj pe circuite rapide.\n";
+        std::cout << "+4% risc pentru erori de pilotaj pe circuite rapide.\n";
         }
 
     if (rand() % 10 == 0) {
         riscSuplimentar += 0.05;
-        std::cout << "[Risc Calificari] +5% risc, pilotul forteaza peste limita.\n";
+        std::cout << "+5% risc, pilotul forteaza peste limita.\n";
     }
 
     return riscBaza + riscSuplimentar;

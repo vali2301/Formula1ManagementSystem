@@ -60,6 +60,7 @@ add_executable(oop
         src/Calificari.cpp
         src/CursaF1.cpp
         src/Motor.cpp
+        src/ConditiiMeteo.cpp
 )
 target_include_directories(oop PRIVATE ${CMAKE_SOURCE_DIR}/include)
 

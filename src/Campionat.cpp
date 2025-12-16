@@ -128,7 +128,7 @@ void Campionat::afisareRegulament() {
     std::cout << "Locul 10 - 1 punct\n";
 }
 
-void Campionat::simulareVreme() {
+/*void Campionat::simulareVreme() {
     std::vector<std::string> conditii = {"Soare", "Ploaie", "Nori", "Ceata"};
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -146,6 +146,7 @@ void Campionat::simulareVreme() {
         std::cout << "Temperaturi moderate, performanta constanta.\n";
     }
 }
+*/
 
 void Campionat::afisareCircuitInfo() {
     std::map<std::string, std::string> info = {

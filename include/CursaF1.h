@@ -7,12 +7,14 @@
 #include "Echipa.h"
 #include "Campionat.h"
 #include "Eveniment.h"
+#include "ConditiiMeteo.h"
 
 class CursaF1 : public Eveniment {
 private:
     std::vector<Echipa> echipe;
     std::vector<int> puncteF1;
     Campionat &campionat;
+    ConditiiMeteo conditii;
 
     std::vector<std::pair<std::string, int>> clasamentFinal;
 

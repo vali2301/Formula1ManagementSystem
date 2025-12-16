@@ -5,24 +5,25 @@
 #include <utility>
 
 CursaF1::CursaF1(std::string locatie, std::vector<Echipa> e, Campionat &c)
-    : Eveniment(std::move(locatie)), echipe(std::move(e)), puncteF1{25,18,15,12,10,8,6,4,2,1}, campionat(c)
+    : Eveniment(std::move(locatie)), echipe(std::move(e)), puncteF1{25,18,15,12,10,8,6,4,2,1}, campionat(c), conditii(getNume())
 {}
 
 CursaF1::CursaF1(const CursaF1& other)
-    : Eveniment(other), echipe(other.echipe), puncteF1(other.puncteF1), campionat(other.campionat) {}
+    : Eveniment(other), echipe(other.echipe), puncteF1(other.puncteF1), campionat(other.campionat), conditii(other.conditii) {}
 
 CursaF1& CursaF1::operator=(const CursaF1& other) {
     if (this != &other) {
         Eveniment::operator=(other);
         echipe = other.echipe;
         puncteF1 = other.puncteF1;
+        conditii = other.conditii;
     }
     return *this;
 }
 
 void CursaF1::simuleazaEveniment() {
     std::cout << "\n[SIMULARE] Cursa F1 din " << getNume() << " a inceput!\n";
-    Campionat::simulareVreme();
+    std::cout << conditii;
 }
 
 int CursaF1::punctePilotCursa(const std::string &pilotAles, std::map<std::string, int> &scoruri) {
@@ -33,7 +34,7 @@ int CursaF1::punctePilotCursa(const std::string &pilotAles, std::map<std::string
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::shuffle(totiPiloti.begin(), totiPiloti.end(), gen);
+    std::ranges::shuffle(totiPiloti, gen);
 
     std::uniform_int_distribution<> distAbandon(0, 9);
     std::vector<std::string> abandonuri;
@@ -54,7 +55,7 @@ int CursaF1::punctePilotCursa(const std::string &pilotAles, std::map<std::string
     for (size_t i = 0; i < totiPiloti.size(); ++i)
         timpi.push_back(distTimp(gen) + i * 0.5);
 
-    std::sort(timpi.begin(), timpi.end());
+    std::ranges::sort(timpi);
     double timpPrimul = timpi[0];
 
     int punctePilot = 0;
@@ -92,8 +93,8 @@ int CursaF1::punctePilotCursa(const std::string &pilotAles, std::map<std::string
 
     std::cout << "\nCel mai rapid tur: " << pilotBonus << " (+1 punct bonus)\n";
 
-    auto itFinal = std::find_if(rezultate.begin(), rezultate.end(),
-                                [&](const auto &x) { return x.first == pilotAles; });
+    auto itFinal = std::ranges::find_if(rezultate,
+                                        [&](const auto &x) { return x.first == pilotAles; });
 
     if (itFinal != rezultate.end())
         std::cout << "\nPilotul tau (" << pilotAles << ") a terminat pe locul "
@@ -125,23 +126,31 @@ std::ostream &operator<<(std::ostream &os, const CursaF1 &c) {
 double CursaF1::calculeazaRiscAbandon() const {
     double riscBaza = 0.10;
     double riscSuplimentar = 0.0;
+    if (conditii.getCoeficientAderenta() < 1.0) {
+        riscSuplimentar += 0.05 * (1.0 - conditii.getCoeficientAderenta());
+        std::cout << "[+ " << (riscSuplimentar * 100) <<
+                "% risc din cauza vremii dificile/aderentei scazute.\n";
+    }
 
     if (getNume().find("Monaco") != std::string::npos ||
         getNume().find("Spa") != std::string::npos ||
-        getNume().find("Las Vegas") != std::string::npos) {
+        getNume().find("Las Vegas") != std::string::npos ||
+        getNume().find("Japonia") != std::string::npos ||
+        getNume().find("Interlagos") != std::string::npos ||
+        getNume().find("Arabia Saudita") != std::string::npos) {
 
         riscSuplimentar += 0.05;
-        std::cout << "[Risc Cursa] +5% risc pentru viraje stradale/periculoase.\n";
+        std::cout << "+5% risc pentru viraje stradale/periculoase.\n";
 
         } else if (getNume().find("Monza") != std::string::npos) {
 
-            riscSuplimentar += 0.03; // Solicitare mare a motorului
-            std::cout << "[Risc Cursa]+ 3% risc pentru solicitare mare a motorului.\n";
+            riscSuplimentar += 0.03;
+            std::cout << "+ 3% risc pentru solicitare mare a motorului.\n";
         }
 
     if (rand() % 100 < 20) {
         riscSuplimentar += 0.08;
-        std::cout << "[Risc Cursa] +8% risc din cauza conditiilor meteo precare.\n";
+        std::cout << "+8% risc din cauza conditiilor meteo precare.\n";
     }
 
     double riscFinal = riscBaza + riscSuplimentar;

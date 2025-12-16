@@ -64,7 +64,7 @@ void Meniu::ruleaza() {
             ev->afiseazaDetaliiEveniment();
             ev->simuleazaEveniment();
 
-            if (auto *calif = dynamic_cast<Calificari *>(ev.get())) {
+            if (const auto *calif = dynamic_cast<Calificari *>(ev.get())) {
                 calif->afiseazaGrilaStart();
 
                 double riscAbandon = ev->calculeazaRiscAbandon();

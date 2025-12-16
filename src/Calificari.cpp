@@ -68,9 +68,9 @@ void Calificari::afisareVirtuala() const {
     std::cout << "Sesiune: " << getNume() << "\n";
 }
 
-[[maybe_unused]] const std::vector<std::string> &Calificari::getGrilaStart() const {
-    return grilaStart;
-}
+//const std::vector<std::string> &Calificari::getGrilaStart() const {
+//return grilaStart;
+//}
 
 void Calificari::afiseazaGrilaStart() const {
     if (grilaStart.empty()) {

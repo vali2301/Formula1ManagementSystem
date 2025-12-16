@@ -64,8 +64,7 @@ add_executable(oop
         src/ConditiiMeteo.cpp
         src/FileManager.cpp
 )
-file(COPY ${CMAKE_SOURCE_DIR}/data
-        DESTINATION ${CMAKE_BINARY_DIR})
+
 target_include_directories(oop PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

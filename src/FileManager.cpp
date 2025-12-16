@@ -4,9 +4,24 @@
 #include <filesystem>
 #include "Exceptii.h"
 
-std::string FileManager::cale(const std::string& fisier) {
-    return (std::filesystem::current_path()/ ".." / "data" / fisier).string();
+std::string FileManager::cale(const std::string &fisier) {
+    std::filesystem::path caleRelativa = std::filesystem::current_path() / ".." / "data" / fisier;
+
+    if (std::filesystem::exists(caleRelativa)) {
+        return caleRelativa.string();
+    }
+
+
+    std::filesystem::path caleAbsoluta = std::filesystem::current_path() / "data" / fisier;
+
+    if (std::filesystem::exists(caleAbsoluta)) {
+        return caleAbsoluta.string();
+    }
+
+
+    return (std::filesystem::current_path() / ".." / "data" / fisier).string();
 }
+
 
 std::vector<Echipa> FileManager::citesteEchipe() {
     std::ifstream fin(cale("echipe.txt"));

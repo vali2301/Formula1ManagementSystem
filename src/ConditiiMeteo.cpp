@@ -1,8 +1,9 @@
 #include "ConditiiMeteo.h"
 #include <iostream>
 #include <random>
+#include <string>
 
-ConditiiMeteo::ConditiiMeteo(const sd::string &circuit)
+ConditiiMeteo::ConditiiMeteo(const std::string &circuit)
     : vremeActuala(Soare),
       coeficientAderenta(1.0),
       numeCircuit(circuit)

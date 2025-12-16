@@ -64,8 +64,8 @@ static std::vector<std::string> citesteCircuite(const std::string& fisier) {
 void Meniu::ruleaza() {
     Campionat campionat;
 
-    std::vector<Echipa> echipe = citesteEchipe("cmake-build-debug/data/echipe.txt");
-    std::vector<std::string> circuite = citesteCircuite("cmake-build-debug/data/circuite.txt");
+    std::vector<Echipa> echipe = citesteEchipe("../date/echipe.txt");
+    std::vector<std::string> circuite = citesteCircuite("../date/circuite.txt");
 
     int indexEchipa = alegeEchipa(echipe);
     Echipa echipaSelectata = echipe[indexEchipa];

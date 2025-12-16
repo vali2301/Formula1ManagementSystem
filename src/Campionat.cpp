@@ -150,9 +150,9 @@ void Campionat::afisareRegulament() {
 */
 
 void Campionat::afisareCircuitInfo() {
-    std::ifstream fin("cmake-build-debug/data/circuite_info.txt");
+    std::ifstream fin("../date/circuite_info.txt");
     if (!fin) {
-        std::cout << "Nu pot deschide fisierul data/circuite_info.txt\n";
+        std::cout << "Nu pot deschide fisierul date/circuite_info.txt\n";
         return;
     }
 

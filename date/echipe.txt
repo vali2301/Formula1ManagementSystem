@@ -1,0 +1,10 @@
+Red Bull;Verstappen,Tsunoda;Honda RBPT;1000;HR01-V6-T-25
+Ferrari;Leclerc,Hamilton;Ferrari;990;FE02-V6-T-25
+Mercedes;Russell,Antonelli;Mercedes;995;ME03-V6-T-25
+Mclaren;Norris,Piastri;Mercedes;995;ME04-V6-T-25
+Aston Martin;Alonso,Stroll;Mercedes;990;ME05-V6-T-25
+Alpine;Colapinto,Gasly;Renault;980;RE06-V6-T-25
+Williams;Albon,Sainz;Mercedes;985;ME07-V6-T-25
+RB;Lawson,Hadjar;Honda RBPT;990;HR08-V6-T-25
+Kick Sauber;Hulkenberg,Bortoleto;Ferrari;980;FE09-V6-T-25
+Haas;Ocon,Bearman;Ferrari;980;FE10-V6-T-25

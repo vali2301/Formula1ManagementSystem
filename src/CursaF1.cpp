@@ -94,11 +94,11 @@ int CursaF1::punctePilotCursa(const std::string &pilotAles, std::map<std::string
     if (!abandonuri.empty()) {
         std::cout << "\nAbandonuri (DNF):\n";
 
-        for (const auto &nume : abandonuri) {
-            std::cout << "- " << nume << " (DNF)\n";
+        for (const auto numePilotAbandon : abandonuri) {
+            std::cout << "- " << numePilotAbandon << " (DNF)\n";
 
             StatisticiCampionat::getInstanta()
-                .inregistreazaAbandon(nume);
+                .inregistreazaAbandon(numePilotAbandon);
         }
     }
 

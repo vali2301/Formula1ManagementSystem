@@ -110,6 +110,9 @@ void Meniu::ruleaza() {
                     std::cerr << "\n[EROARE MENIU] Exceptie: " << e.what() << ". Campionatul s-a terminat fortat.\n";
                     return;
                 }
+                catch (const std::exception &e) {
+                    std::cout << "\n[EROARE CAMPIONAT] " << e.what() << "\n";
+                }
             }
         }
     }

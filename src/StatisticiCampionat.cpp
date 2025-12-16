@@ -57,7 +57,7 @@ void StatisticiCampionat::afiseazaStatisticiSezon() const {
     }
 
     if (totalVictoriiPerPilot.empty()) {
-        std::cout << "Nu exista date statistice.\n";
+        std::cout << "Nu exista data statistice.\n";
     }
 
     std::cout << "==============================================\n";

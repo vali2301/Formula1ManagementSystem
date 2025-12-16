@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       from_date:
-        description: "Start date (YYYY-MM-DD)"
+        description: "Start data (YYYY-MM-DD)"
         required: false
       to_date:
-        description: "End date (YYYY-MM-DD)"
+        description: "End data (YYYY-MM-DD)"
         required: false
 
 permissions:

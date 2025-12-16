@@ -11,61 +11,13 @@
 #include "RecunoastereCircuit.h"
 #include  <StatisticiCampionat.h>
 #include <fstream>
-#include <sstream>
-
-static std::vector<Echipa> citesteEchipe(const std::string& fisier) {
-    std::ifstream fin(fisier);
-    if (!fin)
-        throw CampionatException("Nu pot deschide fisierul " + fisier);
-
-    std::vector<Echipa> echipe;
-    std::string linie;
-
-    while (std::getline(fin, linie)) {
-        if (linie.empty()) continue;
-
-        std::stringstream ss(linie);
-        std::string nume, pilotiStr, motorProd, motorSerie;
-        int motorCP;
-
-        std::getline(ss, nume, ';');
-        std::getline(ss, pilotiStr, ';');
-        std::getline(ss, motorProd, ';');
-        ss >> motorCP;
-        ss.ignore(1); // ;
-        std::getline(ss, motorSerie);
-
-        std::vector<std::string> piloti;
-        std::stringstream sp(pilotiStr);
-        std::string p;
-        while (std::getline(sp, p, ',')) piloti.push_back(p);
-
-        echipe.emplace_back(nume, piloti, motorProd, motorCP, motorSerie);
-    }
-
-    return echipe;
-}
-
-static std::vector<std::string> citesteCircuite(const std::string& fisier) {
-    std::ifstream fin(fisier);
-    if (!fin)
-        throw CampionatException("Nu pot deschide fisierul " + fisier);
-
-    std::vector<std::string> circuite;
-    std::string linie;
-    while (std::getline(fin, linie))
-        if (!linie.empty())
-            circuite.push_back(linie);
-
-    return circuite;
-}
-
+#include <FileManager.h>
 
 void Meniu::ruleaza() {
     Campionat campionat;
 
-    std::vector<Echipa> echipe = citesteEchipe("../date/echipe.txt");
-    std::vector<std::string> circuite = citesteCircuite("../date/circuite.txt");
+    auto echipe = FileManager::citesteEchipe();
+    auto circuite = FileManager::citesteCircuite();
 
     int indexEchipa = alegeEchipa(echipe);
     Echipa echipaSelectata = echipe[indexEchipa];

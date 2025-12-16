@@ -7,6 +7,7 @@
 #include <random>
 #include <limits>
 #include <fstream>
+#include "FileManager.h"
 
 int Campionat::curseTotalDesfasurate = 0;
 
@@ -150,25 +151,20 @@ void Campionat::afisareRegulament() {
 */
 
 void Campionat::afisareCircuitInfo() {
-    std::ifstream fin("../date/circuite_info.txt");
-    if (!fin) {
-        std::cout << "Nu pot deschide fisierul date/circuite_info.txt\n";
+    auto infoCircuite = FileManager::citesteInfoCircuite();
+
+    if (infoCircuite.empty()) {
+        std::cout << "Nu exista informatii despre circuite.\n";
         return;
     }
 
-    std::cout << "\n===== CIRCUITE =====\n";
-    std::string linie;
+    std::cout << "\n===== INFORMATII CIRCUITE =====\n";
 
-    while (std::getline(fin, linie)) {
-        auto pos = linie.find(';');
-        if (pos != std::string::npos) {
-            std::cout << linie.substr(0, pos)
-                      << ": "
-                      << linie.substr(pos + 1)
-                      << "\n";
-        }
+    for (const auto& [nume, descriere] : infoCircuite) {
+        std::cout << nume << ": " << descriere << "\n";
     }
 }
+
 
 void Campionat::simularePitStop() {
     std::random_device rd;

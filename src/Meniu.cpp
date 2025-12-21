@@ -12,6 +12,7 @@
 #include  <StatisticiCampionat.h>
 #include <fstream>
 #include <FileManager.h>
+#include <SprintRace.h>
 
 void Meniu::ruleaza() {
     Campionat campionat;
@@ -37,6 +38,10 @@ void Meniu::ruleaza() {
             std::make_unique<RecunoastereCircuit>(numeCircuit, "Sesiune de orientare (Viteza redusa).", echipe));
 
         weekend.push_back(std::make_unique<Calificari>(numeCircuit, campionat, echipe));
+        if (numeCircuit == "Austria" || numeCircuit == "Interlagos" || numeCircuit == "China" || numeCircuit == "Miami"
+            || numeCircuit == "SUA") {
+            weekend.push_back(std::make_unique<SprintRace>(numeCircuit, echipe, 8));
+        }
 
         CursaF1 cursa(numeCircuit, echipe, campionat);
 
@@ -48,6 +53,13 @@ void Meniu::ruleaza() {
         for (const auto &ev: weekend) {
             ev->afiseazaDetaliiEveniment();
             ev->simuleazaEveniment();
+
+            if (auto *sprintPtr = dynamic_cast<SprintRace *>(ev.get())) {
+                sprintPtr->acordaPuncteSprint(scoruri);
+
+                double risc = sprintPtr->calculeazaRiscAbandon();
+                std::cout << ">>> RISC DINAMIC SPRINT: " << (risc * 100) << "%\n";
+            }
 
             if (const auto *calif = dynamic_cast<Calificari *>(ev.get())) {
                 calif->afiseazaGrilaStart();

@@ -64,6 +64,7 @@ add_executable(oop
         src/ConditiiMeteo.cpp
         src/FileManager.cpp
         src/SprintRace.cpp
+        src/EvenimentFactory.cpp
 )
 
 target_include_directories(oop PRIVATE ${CMAKE_SOURCE_DIR}/include)

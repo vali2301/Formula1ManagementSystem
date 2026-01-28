@@ -94,7 +94,7 @@ void Meniu::ruleaza() {
                     else if (opt == 5) Campionat::simularePitStop();
                     else if (opt == 6) Campionat::simulareSafetyCar();
                     else if (opt == 7) return;
-                } catch (const EroareOptiuneMeniu &e) {
+                } catch (const EroareOptiuneMeniu &) {
                     return;
                 } catch (const std::exception &e) {
                     std::cout << "\n[EROARE] " << e.what() << "\n";
@@ -110,6 +110,10 @@ void Meniu::ruleaza() {
     Campionat::afiseazaClasamentGeneral(scoruri);
     Campionat::afiseazaClasamentEchipe(scoruri);
     StatisticiCampionat::getInstanta().afiseazaStatisticiSezon();
+    istoricTimpi.obtineCelMaiBun();
+    istoricTimpi.sorteazaRezultate();
+    istoricTimpi.getToateDatele();
+    Campionat::afiseazaCelMaiConstantPilot(scoruri, circuite.size());
 }
 
 int Meniu::alegeEchipa(const std::vector<Echipa> &echipe) {
@@ -141,4 +145,5 @@ std::string Meniu::alegePilot(Echipa &echipa) {
         throw EroarePilotInvalid("Selectia pilotului este invalida.");
     }
     return piloti[alegere - 1].getNume();
+
 }
